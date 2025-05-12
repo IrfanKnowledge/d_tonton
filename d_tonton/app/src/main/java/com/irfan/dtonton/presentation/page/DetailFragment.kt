@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.irfan.dtonton.R
-import com.irfan.dtonton.presentation.view_model.DetailViewModel
+import com.irfan.dtonton.presentation.view_model.HomeViewModel
 
 class DetailFragment : Fragment() {
 
@@ -18,13 +18,7 @@ class DetailFragment : Fragment() {
         fun newInstance() = DetailFragment()
     }
 
-    private val viewModel: DetailViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // TODO: Use the ViewModel
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

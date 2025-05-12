@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
+    id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
 }
 
 android {
@@ -21,6 +23,7 @@ android {
         debug {
             isMinifyEnabled = false
             buildConfigField("Boolean", "DEBUG", "true")
+            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b226\"")
         }
         release {
             isMinifyEnabled = false
@@ -28,6 +31,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("Boolean", "DEBUG", "false")
+            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b226\"")
         }
     }
     compileOptions {
@@ -47,7 +52,7 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    implementation(libs.feature.delivery)
+    implementation(libs.feature.delivery) // module dynamic feature
     implementation(libs.androidx.legacy.support.v4)
 
     testImplementation(libs.junit)

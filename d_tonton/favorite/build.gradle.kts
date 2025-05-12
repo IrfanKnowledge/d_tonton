@@ -12,8 +12,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b226\"")
+        }
         release {
             isMinifyEnabled = false
+            buildConfigField("Boolean", "DEBUG", "false")
+            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b226\"")
         }
     }
     compileOptions {
@@ -22,6 +28,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
     }
 }
 

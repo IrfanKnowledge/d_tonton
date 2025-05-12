@@ -5,3 +5,9 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.dynamic.feature) apply false
 }
+
+buildscript {
+    dependencies {
+        classpath(libs.androidx.navigation.safe.args.gradle.plugin) // navigation component safe args
+    }
+}
