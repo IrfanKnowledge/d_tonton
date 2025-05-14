@@ -12,13 +12,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface MovieRemoteDataSource {
     suspend fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>>
     suspend fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailModel>>
 }
 
-class MovieRemoteDataSourceImpl private constructor(private val apiService: ApiService) :
+@Singleton
+class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiService) :
     MovieRemoteDataSource {
     override suspend fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>> {
         return flow {
@@ -79,12 +82,12 @@ class MovieRemoteDataSourceImpl private constructor(private val apiService: ApiS
     companion object {
         private const val TAG = "MovieRemoteDataSource"
 
-        @Volatile
-        private var instance: MovieRemoteDataSourceImpl? = null
-
-        fun getInstance(apiService: ApiService): MovieRemoteDataSourceImpl =
-            instance ?: synchronized(this) {
-                instance ?: MovieRemoteDataSourceImpl(apiService)
-            }.also { instance = it }
+//        @Volatile
+//        private var instance: MovieRemoteDataSourceImpl? = null
+//
+//        fun getInstance(apiService: ApiService): MovieRemoteDataSourceImpl =
+//            instance ?: synchronized(this) {
+//                instance ?: MovieRemoteDataSourceImpl(apiService)
+//            }.also { instance = it }
     }
 }

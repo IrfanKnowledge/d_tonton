@@ -7,8 +7,11 @@ import androidx.lifecycle.asLiveData
 import com.irfan.core.common.ResultState
 import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
 import com.irfan.dtonton.domain.usecase.MovieUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MovieDetailViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
+@HiltViewModel
+class MovieDetailViewModel @Inject constructor (private val movieUseCase: MovieUseCase) : ViewModel() {
     private val _movieDetail = MediatorLiveData<ResultState<MovieDetailEntity>>(ResultState.Initial)
     val movieDetail: LiveData<ResultState<MovieDetailEntity>> = _movieDetail
 

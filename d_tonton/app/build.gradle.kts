@@ -1,8 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-parcelize")
+    id("kotlin-parcelize") // parcelize plugin
     id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
+    id("com.google.devtools.ksp") // ksp pengganti kapt
+    id("com.google.dagger.hilt.android") // dagger hilt
 }
 
 android {
@@ -54,6 +56,9 @@ dependencies {
 
     implementation(libs.feature.delivery) // module dynamic feature
     implementation(libs.androidx.legacy.support.v4)
+
+    implementation(libs.hilt.android) // dagger hilt
+    ksp(libs.hilt.android.compiler) // dagger hilt
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

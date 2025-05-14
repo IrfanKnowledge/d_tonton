@@ -8,8 +8,11 @@ import com.irfan.dtonton.domain.entity.movie.MovieEntity
 import com.irfan.dtonton.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MovieRepositoryImpl private constructor(private val movieRemoteDataSource: MovieRemoteDataSource) :
+@Singleton
+class MovieRepositoryImpl @Inject constructor(private val movieRemoteDataSource: MovieRemoteDataSource) :
     MovieRepository {
     override fun getListMovieNowPlaying(): Flow<ResultState<List<MovieEntity>>> {
         return flow {
@@ -60,11 +63,11 @@ class MovieRepositoryImpl private constructor(private val movieRemoteDataSource:
     companion object {
         const val TAG = "MovieRepository"
 
-        @Volatile
-        private var instance: MovieRepositoryImpl? = null
-        fun getInstance(movieRemoteDataSource: MovieRemoteDataSource): MovieRepositoryImpl =
-            instance ?: synchronized(this) {
-                instance ?: MovieRepositoryImpl(movieRemoteDataSource)
-            }.also { instance = it }
+//        @Volatile
+//        private var instance: MovieRepositoryImpl? = null
+//        fun getInstance(movieRemoteDataSource: MovieRemoteDataSource): MovieRepositoryImpl =
+//            instance ?: synchronized(this) {
+//                instance ?: MovieRepositoryImpl(movieRemoteDataSource)
+//            }.also { instance = it }
     }
 }

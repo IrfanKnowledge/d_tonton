@@ -1,30 +1,38 @@
 package com.irfan.dtonton.presentation.page
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.irfan.dtonton.R
-import com.irfan.dtonton.presentation.view_model.HomeViewModel
+import com.irfan.dtonton.databinding.FragmentDetailBinding
+import com.irfan.dtonton.presentation.view_model.MovieDetailViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
+    private lateinit var _binding: FragmentDetailBinding
+    private val binding get() = _binding
 
-    companion object {
-        fun newInstance() = DetailFragment()
-    }
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: MovieDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // todo: onViewCreated
     }
 
     private fun installFavoriteModule() {
@@ -39,11 +47,16 @@ class DetailFragment : Fragment() {
                 .build()
             splitInstallManager.startInstall(request)
                 .addOnSuccessListener {
-                    Toast.makeText(requireActivity(), "Success installing module", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireActivity(),
+                        "Success installing module",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     addToFavorite()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(requireActivity(), "Error installing module", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity(), "Error installing module", Toast.LENGTH_SHORT)
+                        .show()
                 }
         }
     }
