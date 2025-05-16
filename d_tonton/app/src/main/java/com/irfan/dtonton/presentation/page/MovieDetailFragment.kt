@@ -9,15 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.irfan.dtonton.databinding.FragmentDetailBinding
+import com.irfan.dtonton.databinding.FragmentMovieDetailBinding
 import com.irfan.dtonton.presentation.view_model.MovieDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment() {
-    private lateinit var _binding: FragmentDetailBinding
+class MovieDetailFragment : Fragment() {
+    private lateinit var _binding: FragmentMovieDetailBinding
     private val binding get() = _binding
-
 
     private val viewModel: MovieDetailViewModel by viewModels()
 
@@ -25,14 +24,9 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // todo: onViewCreated
     }
 
     private fun installFavoriteModule() {

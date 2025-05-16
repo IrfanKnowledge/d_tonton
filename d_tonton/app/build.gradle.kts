@@ -25,7 +25,7 @@ android {
         debug {
             isMinifyEnabled = false
             buildConfigField("Boolean", "DEBUG", "true")
-            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b226\"")
+            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b2266\"")
         }
         release {
             isMinifyEnabled = false
@@ -34,7 +34,7 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("Boolean", "DEBUG", "false")
-            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b226\"")
+            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b2266\"")
         }
     }
     compileOptions {
@@ -59,6 +59,7 @@ dependencies {
 
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
+    implementation(libs.androidx.swiperefreshlayout) // swipe refresh
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

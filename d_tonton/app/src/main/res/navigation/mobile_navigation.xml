@@ -3,13 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_movie_home">
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:name="com.irfan.dtonton.presentation.page.home.HomeFragment"-->
+<!--        android:label="@string/menu_home"-->
+<!--        tools:layout="@layout/fragment_home" />-->
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.irfan.dtonton.presentation.page.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_movie_home"
+        android:name="com.irfan.dtonton.presentation.page.MovieHomeFragment"
+        android:label="@string/label_movie_home"
+        tools:layout="@layout/fragment_movie_home"/>
 
     <fragment
         android:id="@+id/nav_gallery"

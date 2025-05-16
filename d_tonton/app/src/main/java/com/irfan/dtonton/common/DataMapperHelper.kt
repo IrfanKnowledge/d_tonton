@@ -5,6 +5,7 @@ import com.irfan.dtonton.data.model.movie.MovieModel
 import com.irfan.dtonton.domain.entity.GenreEntity
 import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
 import com.irfan.dtonton.domain.entity.movie.MovieEntity
+import com.irfan.dtonton.presentation.model.MovieCardPModel
 
 object DataMapperHelper {
     fun mapListMovieModelToListMovieEntity(input: List<MovieModel>): List<MovieEntity> {
@@ -23,6 +24,15 @@ object DataMapperHelper {
                 video = it.video,
                 voteAverage = it.voteAverage,
                 voteCount = it.voteCount,
+            )
+        }
+    }
+
+    fun mapListMovieEntityToListMovieCardPModel(input: List<MovieEntity>): List<MovieCardPModel> {
+        return input.map {
+            MovieCardPModel(
+                id = it.id,
+                posterPath = it.posterPath,
             )
         }
     }

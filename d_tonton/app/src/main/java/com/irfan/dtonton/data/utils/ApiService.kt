@@ -11,6 +11,14 @@ interface ApiService {
     suspend fun getListMovieNowPlaying(
     ): Response<MovieResponseModel>
 
+    @GET("movie/popular")
+    suspend fun getListMoviePopular(
+    ): Response<MovieResponseModel>
+
+    @GET("movie/top_rated")
+    suspend fun getListMovieTopRated(
+    ): Response<MovieResponseModel>
+
     @GET("movie/{id}")
     suspend fun getMovieDetail(
         @Path("id") id: Int,

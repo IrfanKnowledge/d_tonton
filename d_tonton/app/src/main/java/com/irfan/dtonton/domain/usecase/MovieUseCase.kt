@@ -7,5 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieUseCase {
     fun getListMovieNowPlaying(): Flow<ResultState<List<MovieEntity>>>
+    fun getListMoviePopular(): Flow<ResultState<List<MovieEntity>>>
+    fun getListMovieTopRated(): Flow<ResultState<List<MovieEntity>>>
     fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailEntity>>
 }

@@ -97,6 +97,4 @@ abstract class UseCaseModule {
 }
 
 @HiltAndroidApp
-class DTontonApplication : SplitCompatApplication() {
-
-}
+class DTontonApplication : SplitCompatApplication()

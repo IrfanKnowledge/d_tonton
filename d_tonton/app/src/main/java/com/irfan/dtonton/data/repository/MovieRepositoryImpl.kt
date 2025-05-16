@@ -1,6 +1,7 @@
 package com.irfan.dtonton.data.repository
 
 import com.irfan.core.common.ResultState
+import com.irfan.core.common.SingleEvent
 import com.irfan.dtonton.common.DataMapperHelper
 import com.irfan.dtonton.data.datasource.movie.MovieRemoteDataSource
 import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
@@ -22,7 +23,7 @@ class MovieRepositoryImpl @Inject constructor(private val movieRemoteDataSource:
                 when (result) {
                     is ResultState.Initial -> emit(ResultState.Initial)
                     is ResultState.Loading -> emit(ResultState.Loading)
-                    is ResultState.NoData -> emit(ResultState.NoData)
+                    is ResultState.NoData -> emit(ResultState.NoData(SingleEvent(Unit)))
                     is ResultState.HasData -> emit(
                         ResultState.HasData(
                             DataMapperHelper.mapListMovieModelToListMovieEntity(
@@ -31,7 +32,52 @@ class MovieRepositoryImpl @Inject constructor(private val movieRemoteDataSource:
                         )
                     )
 
-                    is ResultState.Error -> emit(ResultState.Error(result.error))
+                    is ResultState.Error -> emit(ResultState.Error(result.message))
+                }
+            }
+        }
+    }
+
+    override fun getListMoviePopular(): Flow<ResultState<List<MovieEntity>>> {
+        return flow {
+            emit(ResultState.Loading)
+            val dataModel = movieRemoteDataSource.getListMoviePopular()
+            dataModel.collect { result ->
+                when (result) {
+                    is ResultState.Initial -> emit(ResultState.Initial)
+                    is ResultState.Loading -> emit(ResultState.Loading)
+                    is ResultState.NoData -> emit(ResultState.NoData(SingleEvent(Unit)))
+                    is ResultState.HasData -> emit(
+                        ResultState.HasData(
+                            DataMapperHelper.mapListMovieModelToListMovieEntity(
+                                result.data
+                            )
+                        )
+                    )
+                    is ResultState.Error -> emit(ResultState.Error(result.message))
+                }
+            }
+        }
+    }
+
+    override fun getListMovieTopRated(): Flow<ResultState<List<MovieEntity>>> {
+        return flow {
+            emit(ResultState.Loading)
+            val dataModel = movieRemoteDataSource.getListMovieTopRated()
+            dataModel.collect { result ->
+                when (result) {
+                    is ResultState.Initial -> emit(ResultState.Initial)
+                    is ResultState.Loading -> emit(ResultState.Loading)
+                    is ResultState.NoData -> emit(ResultState.NoData(SingleEvent(Unit)))
+                    is ResultState.HasData -> emit(
+                        ResultState.HasData(
+                            DataMapperHelper.mapListMovieModelToListMovieEntity(
+                                result.data
+                            )
+                        )
+                    )
+
+                    is ResultState.Error -> emit(ResultState.Error(result.message))
                 }
             }
         }
@@ -45,7 +91,7 @@ class MovieRepositoryImpl @Inject constructor(private val movieRemoteDataSource:
                 when (result) {
                     is ResultState.Initial -> emit(ResultState.Initial)
                     is ResultState.Loading -> emit(ResultState.Loading)
-                    is ResultState.NoData -> emit(ResultState.NoData)
+                    is ResultState.NoData -> emit(ResultState.NoData(SingleEvent(Unit)))
                     is ResultState.HasData -> emit(
                         ResultState.HasData(
                             DataMapperHelper.mapMovieDetailModelToMovieDetailEntity(
@@ -54,7 +100,7 @@ class MovieRepositoryImpl @Inject constructor(private val movieRemoteDataSource:
                         )
                     )
 
-                    is ResultState.Error -> emit(ResultState.Error(result.error))
+                    is ResultState.Error -> emit(ResultState.Error(result.message))
                 }
             }
         }

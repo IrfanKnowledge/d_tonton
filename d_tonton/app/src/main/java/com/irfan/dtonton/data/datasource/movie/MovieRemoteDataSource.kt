@@ -17,6 +17,8 @@ import javax.inject.Singleton
 
 interface MovieRemoteDataSource {
     suspend fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>>
+    suspend fun getListMoviePopular(): Flow<ResultState<List<MovieModel>>>
+    suspend fun getListMovieTopRated(): Flow<ResultState<List<MovieModel>>>
     suspend fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailModel>>
 }
 
@@ -31,7 +33,63 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
                 if (response.isSuccessful) {
                     val data = response.body()?.results
                     if (data.isNullOrEmpty()) {
-                        emit(ResultState.NoData)
+                        emit(ResultState.NoData(SingleEvent(Unit)))
+                    } else {
+                        emit(ResultState.HasData(data))
+                    }
+                } else {
+                    val errorResponseModel = Gson().fromJson(
+                        response.errorBody()?.string(),
+                        ErrorResponseModel::class.java
+                    )
+                    val message = errorResponseModel.message ?: ""
+                    MyLogger.d(TAG, message)
+                    emit(ResultState.Error(SingleEvent(message)))
+                }
+            } catch (e: Exception) {
+                MyLogger.e(TAG, e.message.toString())
+                emit(ResultState.Error(SingleEvent(e.message.toString())))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getListMoviePopular(): Flow<ResultState<List<MovieModel>>> {
+        return flow {
+            try {
+                emit(ResultState.Loading)
+                val response = apiService.getListMoviePopular()
+                if (response.isSuccessful) {
+                    val data = response.body()?.results
+                    if (data.isNullOrEmpty()) {
+                        emit(ResultState.NoData(SingleEvent(Unit)))
+                    } else {
+                        emit(ResultState.HasData(data))
+                    }
+                } else {
+                    val errorResponseModel = Gson().fromJson(
+                        response.errorBody()?.string(),
+                        ErrorResponseModel::class.java
+                    )
+                    val message = errorResponseModel.message ?: ""
+                    MyLogger.d(TAG, message)
+                    emit(ResultState.Error(SingleEvent(message)))
+                }
+            } catch (e: Exception) {
+                MyLogger.e(TAG, e.message.toString())
+                emit(ResultState.Error(SingleEvent(e.message.toString())))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun getListMovieTopRated(): Flow<ResultState<List<MovieModel>>> {
+        return flow {
+            try {
+                emit(ResultState.Loading)
+                val response = apiService.getListMovieTopRated()
+                if (response.isSuccessful) {
+                    val data = response.body()?.results
+                    if (data.isNullOrEmpty()) {
+                        emit(ResultState.NoData(SingleEvent(Unit)))
                     } else {
                         emit(ResultState.HasData(data))
                     }
@@ -59,7 +117,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data == null) {
-                        emit(ResultState.NoData)
+                        emit(ResultState.NoData(SingleEvent(Unit)))
                     } else {
                         emit(ResultState.HasData(data))
                     }
