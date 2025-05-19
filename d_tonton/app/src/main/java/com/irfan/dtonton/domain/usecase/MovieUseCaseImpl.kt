@@ -20,4 +20,19 @@ class MovieUseCaseImpl @Inject constructor(private val movieRepository: MovieRep
 
     override fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailEntity>> =
         movieRepository.getMovieDetail(id)
+
+    override fun getMovieDetailListRecommendation(id: Int): Flow<ResultState<List<MovieEntity>>> =
+        movieRepository.getMovieDetailListRecommendation(id)
+
+    override fun getWatchlistMovie(): Flow<ResultState<List<MovieEntity>>> =
+        movieRepository.getWatchlistMovie()
+
+    override suspend fun insertWatchlistMovie(movie: MovieEntity): ResultState<Boolean> =
+        movieRepository.insertWatchlistMovie(movie)
+
+    override suspend fun deleteWatchlistMovie(id: Int): ResultState<Boolean> =
+        movieRepository.deleteWatchlistMovie(id)
+
+    override suspend fun isWatchlistMovie(id: Int): ResultState<Boolean> =
+        movieRepository.isWatchlistMovie(id)
 }

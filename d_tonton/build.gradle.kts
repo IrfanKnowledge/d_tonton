@@ -3,13 +3,14 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.androidx.navigation.safeargs.kotlin) apply false // navigation component safe args plugin
     alias(libs.plugins.android.dynamic.feature) apply false // dynamic feature
     alias(libs.plugins.devtools.ksp) apply false // ksp pengganti kapt
     alias(libs.plugins.dagger.hilt.android) apply false // dagger hilt
 }
 
-buildscript {
-    dependencies {
-        classpath(libs.androidx.navigation.safe.args.gradle.plugin) // navigation component safe args
-    }
-}
+//buildscript {
+//    dependencies {
+//        classpath(libs.androidx.navigation.safe.args.gradle.plugin) // navigation component safe args
+//    }
+//}

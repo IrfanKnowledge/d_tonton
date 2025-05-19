@@ -1,7 +1,9 @@
 package com.irfan.dtonton
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -11,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationView
 import com.irfan.dtonton.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import com.irfan.core.R as core
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -45,6 +48,22 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.appBarMain.toolbar.navigationIcon = AppCompatResources.getDrawable(this, core.drawable.ic_drawer_24px_white)
+            binding.appBarMain.toolbar.setNavigationIconTint(getColor(core.color.md_theme_onPrimary))
+
+            when (destination.id) {
+                R.id.movieDetailFragment -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                    binding.appBarMain.toolbar.visibility = View.GONE
+                }
+                else -> {
+                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                    binding.appBarMain.toolbar.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -2,9 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize") // parcelize plugin
-    id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
-    id("com.google.devtools.ksp") // ksp pengganti kapt
-    id("com.google.dagger.hilt.android") // dagger hilt
+    alias(libs.plugins.androidx.navigation.safeargs.kotlin) // navigation component safe args plugin
+    alias(libs.plugins.devtools.ksp) // ksp pengganti kapt
+    alias(libs.plugins.dagger.hilt.android) // dagger hilt
 }
 
 android {
@@ -60,6 +60,9 @@ dependencies {
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
     implementation(libs.androidx.swiperefreshlayout) // swipe refresh
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

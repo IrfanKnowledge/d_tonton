@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize") // parcelize plugin
+    id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
+    alias(libs.plugins.devtools.ksp) // ksp pengganti kapt
+//    alias(libs.plugins.dagger.hilt.android) // dagger hilt
 }
 android {
     namespace = "com.irfan.favorite"
@@ -39,6 +43,10 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":app"))
+
+    implementation(libs.hilt.android) // dagger hilt
+    ksp(libs.hilt.android.compiler) // dagger hilt
+    implementation(libs.androidx.swiperefreshlayout) // swipe refresh
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

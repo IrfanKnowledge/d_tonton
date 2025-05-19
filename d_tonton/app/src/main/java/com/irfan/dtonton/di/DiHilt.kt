@@ -1,12 +1,18 @@
 package com.irfan.dtonton.di
 
+import android.content.Context
+import androidx.room.Room
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import com.irfan.core.common.Constant
 import com.irfan.dtonton.BuildConfig
+import com.irfan.dtonton.data.datasource.movie.MovieLocalDataSource
+import com.irfan.dtonton.data.datasource.movie.MovieLocalDataSourceImpl
 import com.irfan.dtonton.data.datasource.movie.MovieRemoteDataSource
 import com.irfan.dtonton.data.datasource.movie.MovieRemoteDataSourceImpl
 import com.irfan.dtonton.data.repository.MovieRepositoryImpl
-import com.irfan.dtonton.data.utils.ApiService
+import com.irfan.dtonton.data.utils.local.DTontonDatabase
+import com.irfan.dtonton.data.utils.local.WatchlistDao
+import com.irfan.dtonton.data.utils.remote.ApiService
 import com.irfan.dtonton.domain.repository.MovieRepository
 import com.irfan.dtonton.domain.usecase.MovieUseCase
 import com.irfan.dtonton.domain.usecase.MovieUseCaseImpl
@@ -16,6 +22,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
@@ -24,6 +31,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -71,15 +79,33 @@ class NetworkModule {
     }
 }
 
-@Module(includes = [NetworkModule::class])
+@Module
+@InstallIn(SingletonComponent::class)
+class DatabaseModule {
+
+    @Singleton
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context): DTontonDatabase {
+        return Room.databaseBuilder(context, DTontonDatabase::class.java, "dtonton.db")
+            .fallbackToDestructiveMigration(false).build()
+    }
+
+    @Provides
+    fun provideWatchlistDao(database: DTontonDatabase): WatchlistDao = database.watchlistDao()
+}
+
+@Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
 
     @Binds
-    abstract fun provideMovieRemoteDataSource(moveiRemoteDataSourceImpl: MovieRemoteDataSourceImpl): MovieRemoteDataSource
+    abstract fun provideMovieRemoteDataSource(movieRemoteDataSourceImpl: MovieRemoteDataSourceImpl): MovieRemoteDataSource
+
+    @Binds
+    abstract fun provideMovieLocalDataSource(movieLocalDataSourceImpl: MovieLocalDataSourceImpl): MovieLocalDataSource
 }
 
-@Module(includes = [DataSourceModule::class])
+@Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
@@ -87,7 +113,7 @@ abstract class RepositoryModule {
     abstract fun provideMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
 }
 
-@Module(includes = [RepositoryModule::class])
+@Module
 @InstallIn(ViewModelComponent::class)
 abstract class UseCaseModule {
 

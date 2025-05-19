@@ -1,4 +1,4 @@
-package com.irfan.dtonton.data.utils
+package com.irfan.dtonton.data.utils.remote
 
 import com.irfan.dtonton.data.model.movie.MovieDetailModel
 import com.irfan.dtonton.data.model.movie.MovieResponseModel
@@ -23,4 +23,9 @@ interface ApiService {
     suspend fun getMovieDetail(
         @Path("id") id: Int,
     ): Response<MovieDetailModel>
+
+    @GET("movie/{id}/recommendations")
+    suspend fun getMovieDetailListRecommendation(
+        @Path("id") id: Int,
+    ): Response<MovieResponseModel>
 }

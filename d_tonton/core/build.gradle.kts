@@ -63,6 +63,7 @@ dependencies {
     api(libs.kotlinx.coroutines.core)
     // Library untuk memudahkan threading di Android
     api(libs.kotlinx.coroutines.android)
+    // untuk image url
     api(libs.glide)
 
     testImplementation(libs.junit)

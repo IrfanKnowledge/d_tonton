@@ -18,4 +18,11 @@
     <string name="now_playing">Now Playing</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
+    <string name="movie_detail">Movie Detail</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="rating">Rating:</string>
+    <string name="overview">Overview</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="rating_value">%.1f/10 (%d)</string>
 </resources>

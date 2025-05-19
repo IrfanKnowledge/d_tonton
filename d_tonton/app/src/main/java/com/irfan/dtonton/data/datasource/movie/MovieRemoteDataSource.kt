@@ -7,7 +7,7 @@ import com.irfan.core.common.SingleEvent
 import com.irfan.dtonton.data.model.ErrorResponseModel
 import com.irfan.dtonton.data.model.movie.MovieDetailModel
 import com.irfan.dtonton.data.model.movie.MovieModel
-import com.irfan.dtonton.data.utils.ApiService
+import com.irfan.dtonton.data.utils.remote.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -16,16 +16,17 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 interface MovieRemoteDataSource {
-    suspend fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>>
-    suspend fun getListMoviePopular(): Flow<ResultState<List<MovieModel>>>
-    suspend fun getListMovieTopRated(): Flow<ResultState<List<MovieModel>>>
-    suspend fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailModel>>
+    fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>>
+    fun getListMoviePopular(): Flow<ResultState<List<MovieModel>>>
+    fun getListMovieTopRated(): Flow<ResultState<List<MovieModel>>>
+    fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailModel>>
+    fun getMovieDetailListRecommendation(id: Int): Flow<ResultState<List<MovieModel>>>
 }
 
 @Singleton
 class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiService) :
     MovieRemoteDataSource {
-    override suspend fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>> {
+    override fun getListMovieNowPlaying(): Flow<ResultState<List<MovieModel>>> {
         return flow {
             try {
                 emit(ResultState.Loading)
@@ -53,7 +54,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getListMoviePopular(): Flow<ResultState<List<MovieModel>>> {
+    override fun getListMoviePopular(): Flow<ResultState<List<MovieModel>>> {
         return flow {
             try {
                 emit(ResultState.Loading)
@@ -81,7 +82,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getListMovieTopRated(): Flow<ResultState<List<MovieModel>>> {
+    override fun getListMovieTopRated(): Flow<ResultState<List<MovieModel>>> {
         return flow {
             try {
                 emit(ResultState.Loading)
@@ -109,7 +110,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailModel>> {
+    override fun getMovieDetail(id: Int): Flow<ResultState<MovieDetailModel>> {
         return flow {
             try {
                 emit(ResultState.Loading)
@@ -117,6 +118,34 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
                 if (response.isSuccessful) {
                     val data = response.body()
                     if (data == null) {
+                        emit(ResultState.NoData(SingleEvent(Unit)))
+                    } else {
+                        emit(ResultState.HasData(data))
+                    }
+                } else {
+                    val errorResponseModel = Gson().fromJson(
+                        response.errorBody()?.string(),
+                        ErrorResponseModel::class.java
+                    )
+                    val message = errorResponseModel.message ?: ""
+                    MyLogger.d(TAG, message)
+                    emit(ResultState.Error(SingleEvent(message)))
+                }
+            } catch (e: Exception) {
+                MyLogger.e(TAG, e.message.toString())
+                emit(ResultState.Error(SingleEvent(e.message.toString())))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override fun getMovieDetailListRecommendation(id: Int): Flow<ResultState<List<MovieModel>>> {
+        return flow {
+            try {
+                emit(ResultState.Loading)
+                val response = apiService.getMovieDetailListRecommendation(id)
+                if (response.isSuccessful) {
+                    val data = response.body()?.results
+                    if (data.isNullOrEmpty()) {
                         emit(ResultState.NoData(SingleEvent(Unit)))
                     } else {
                         emit(ResultState.HasData(data))
