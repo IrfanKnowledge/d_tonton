@@ -29,12 +29,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
-//        binding.appBarMain.fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null)
-//                .setAnchorView(R.id.fab).show()
-//        }
-
         val drawerLayout: DrawerLayout = binding.drawerLayout
         // navigation drawer
         val navView: NavigationView = binding.navView
@@ -43,8 +37,8 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_movie_home, R.id.nav_gallery, R.id.nav_slideshow
-            ), drawerLayout
+                R.id.nav_movie, R.id.nav_watchlist_movie, R.id.nav_slideshow
+            ), drawerLayout,
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
@@ -53,8 +47,10 @@ class MainActivity : AppCompatActivity() {
             binding.appBarMain.toolbar.navigationIcon = AppCompatResources.getDrawable(this, core.drawable.ic_drawer_24px_white)
             binding.appBarMain.toolbar.setNavigationIconTint(getColor(core.color.md_theme_onPrimary))
 
-            when (destination.id) {
-                R.id.movieDetailFragment -> {
+            val setOfDrawerMenu =  setOf(R.id.movieDetailFragment, R.id.nav_watchlist_movie)
+
+            when {
+                setOfDrawerMenu.contains(destination.id) -> {
                     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                     binding.appBarMain.toolbar.visibility = View.GONE
                 }
@@ -65,12 +61,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.main, menu)
-//        return true
-//    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)

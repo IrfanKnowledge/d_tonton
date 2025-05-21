@@ -5,38 +5,44 @@ import com.irfan.dtonton.data.model.GenreModel
 
 data class MovieDetailModel(
     @field:SerializedName("adult")
-    val adult: Boolean,
+    val adult: Boolean?,
 
     @field:SerializedName("backdrop_path")
     val backdropPath: String?,
 
     @field:SerializedName("genres")
-    val genres: List<GenreModel>,
+    val genres: List<GenreModel>?,
 
     @field:SerializedName("id")
-    val id: Int,
+    val id: Int?,
 
     @field:SerializedName("original_title")
-    val originalTitle: String,
+    val originalTitle: String?,
 
     @field:SerializedName("overview")
-    val overview: String,
+    val overview: String?,
+
+    @field:SerializedName("popularity")
+    val popularity: Double?,
 
     @field:SerializedName("poster_path")
-    val posterPath: String,
+    val posterPath: String?,
 
     @field:SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
 
     @field:SerializedName("runtime")
-    val runtime: Int,
+    val runtime: Int?,
 
     @field:SerializedName("title")
-    val title: String,
+    val title: String?,
+
+    @field:SerializedName("video")
+    val video: Boolean?,
 
     @field:SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
 
     @field:SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int?
 )

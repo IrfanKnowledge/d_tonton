@@ -5,6 +5,6 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MovieCardPModel(
-    val id: Int,
+    val id: Int?,
     val posterPath: String?,
 ) : Parcelable

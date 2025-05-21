@@ -13,7 +13,7 @@ data class MovieModel(
     val genreIds: List<Int>?,
 
     @field:SerializedName("id")
-    val id: Int,
+    val id: Int?,
 
     @field:SerializedName("original_title")
     val originalTitle: String?,

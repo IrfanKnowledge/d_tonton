@@ -114,10 +114,10 @@ abstract class RepositoryModule {
 }
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class UseCaseModule {
 
-    @ViewModelScoped
+    @Singleton
     @Binds
     abstract fun provideMovieUseCase(movieUseCaseImpl: MovieUseCaseImpl): MovieUseCase
 }

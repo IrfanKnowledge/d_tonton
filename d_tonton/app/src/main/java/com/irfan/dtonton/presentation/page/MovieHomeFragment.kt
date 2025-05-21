@@ -27,8 +27,8 @@ import com.irfan.core.R as core
 
 @AndroidEntryPoint
 class MovieHomeFragment : Fragment() {
-    private lateinit var _binding: FragmentMovieHomeBinding
-    private val binding get() = _binding
+    private var _binding: FragmentMovieHomeBinding? = null
+    private val binding get() = _binding!!
 
     private val movieHomeViewModel: MovieHomeViewModel by viewModels()
 
@@ -240,7 +240,7 @@ class MovieHomeFragment : Fragment() {
 
         val id = movieCardPModel.id
         val toMovieDetailFragment =
-            MovieHomeFragmentDirections.actionNavMovieHomeToMovieDetailFragment(id)
+            MovieHomeFragmentDirections.actionNavMovieHomeToMovieDetailFragment(id ?: 0)
 
         val extras = FragmentNavigatorExtras(
             bindingItem.itemColumnMovieImage to "movie_detail_img_movie_transition",
@@ -249,6 +249,10 @@ class MovieHomeFragment : Fragment() {
         view.findNavController().navigate(toMovieDetailFragment, extras)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     companion object {
         const val TAG = "MovieHomeFragment"

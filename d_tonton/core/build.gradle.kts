@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    id("kotlin-parcelize")
-    id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
 }
 
 android {
@@ -46,23 +44,7 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.core.ktx)
-    api(libs.androidx.appcompat)
     api(libs.material)
-    api(libs.androidx.constraintlayout)
-    api(libs.androidx.lifecycle.livedata.ktx)
-    api(libs.androidx.lifecycle.viewmodel.ktx)
-
-    api(libs.androidx.fragment.ktx) // in fragments, example: val someViewModel: by viewModels()
-    api(libs.androidx.navigation.fragment.ktx) // navigation component
-    api(libs.androidx.navigation.ui.ktx) // navigation component
-    api(libs.retrofit) // request API
-    api(libs.converter.gson) // parsing response API
-    api(libs.logging.interceptor) // logging API
-    // Library dasar coroutine
-    api(libs.kotlinx.coroutines.core)
-    // Library untuk memudahkan threading di Android
-    api(libs.kotlinx.coroutines.android)
     // untuk image url
     api(libs.glide)
 

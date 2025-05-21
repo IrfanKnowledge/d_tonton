@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.irfan.core.R
@@ -23,6 +25,7 @@ import com.irfan.dtonton.common.RvHelper.rvItemDecoration
 import com.irfan.dtonton.common.RvHelper.rvLayoutManager
 import com.irfan.dtonton.databinding.FragmentMovieDetailBinding
 import com.irfan.dtonton.databinding.ItemColumnMovieBinding
+import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
 import com.irfan.dtonton.presentation.adapter.ListMovieAdapter
 import com.irfan.dtonton.presentation.model.MovieCardPModel
 import com.irfan.dtonton.presentation.view_model.MovieDetailViewModel
@@ -32,10 +35,12 @@ import com.irfan.core.R as core
 
 @AndroidEntryPoint
 class MovieDetailFragment : Fragment() {
-    private lateinit var _binding: FragmentMovieDetailBinding
-    private val binding get() = _binding
+    private var _binding: FragmentMovieDetailBinding? = null
+    private val binding get() = _binding!!
 
     private val movieDetailViewModel: MovieDetailViewModel by viewModels()
+
+    private var idMovieDetail: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +59,9 @@ class MovieDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val args = MovieDetailFragmentArgs.fromBundle(arguments as Bundle)
+        idMovieDetail = args.id
+
 
         if (!movieDetailViewModel.isInitRefresh) {
             movieDetailViewModel.isInitRefresh = true
@@ -71,10 +79,6 @@ class MovieDetailFragment : Fragment() {
 
             movieDetailToolbar.setNavigationOnClickListener {
                 view.findNavController().navigateUp()
-            }
-
-            movieDetailBtnWatchlist.setOnClickListener {
-                installFavoriteModule()
             }
         }
     }
@@ -101,16 +105,138 @@ class MovieDetailFragment : Fragment() {
                     binding.apply {
                         movieDetailImgMovie.loadImage(Constant.BASE_IMAGE_URL + data.posterPath)
                         movieDetailTvTitle.text = data.title
-                        movieDetailTvGenre.text = data.listGenre.joinToString()
+                        movieDetailTvGenre.text = data.listGenre?.joinToString()
                         movieDetailTvDuration.text = data.runtime.toString()
                         movieDetailTvRatingValue.text =
                             getString(core.string.rating_value, data.voteAverage, data.voteCount)
                         movieDetailTvDescription.text = data.overview
                     }
+
+                    showStateIsWatchlist(view, resultState.data)
                 }
 
                 is ResultState.Error -> {
                     showLoadingImgToBeforeRecommendations(false)
+                    showSnackBarSingleEvent(view, resultState.message)
+                }
+            }
+        }
+    }
+
+    private fun showStateIsWatchlist(view: View, moveiDetail: MovieDetailEntity) {
+        movieDetailViewModel.stateIsWatchlistMovie.observe(viewLifecycleOwner) { resultState ->
+            MyLogger.d(TAG, "stateIsWatchlistMovie: $resultState")
+            when (resultState) {
+                is ResultState.Initial -> showLoadingBtnWatchlist(false)
+                is ResultState.Loading -> showLoadingBtnWatchlist(true)
+                is ResultState.NoData -> {
+                    showLoadingBtnWatchlist(false)
+                    showSnackBarSingleEvent(
+                        view,
+                        resultState.data,
+                        resources.getString(R.string.result_state_no_data),
+                    )
+                }
+
+                is ResultState.HasData -> {
+                    showLoadingBtnWatchlist(false)
+
+                    setIconBtnWatchlist(resultState.data)
+
+                    binding.apply {
+                        movieDetailBtnWatchlist.setOnClickListener {
+                            installFavoriteModule {
+                                onTapBtnWatchlist(resultState.data, moveiDetail)
+                            }
+                        }
+                    }
+
+                    showStateInsertWatchlist(view)
+                    showStateDeleteWatchlist(view)
+                }
+
+                is ResultState.Error -> {
+                    showLoadingRecommendation(false)
+                    showSnackBarSingleEvent(view, resultState.message)
+                }
+            }
+        }
+    }
+
+    private fun showStateInsertWatchlist(view: View) {
+        movieDetailViewModel.stateInsertWatchlistMovie.observe(viewLifecycleOwner) { resultState ->
+            MyLogger.d(TAG, "stateInsertWatchlistMovie: $resultState")
+            when (resultState) {
+                is ResultState.Initial -> showLoadingBtnWatchlist(false)
+                is ResultState.Loading -> showLoadingBtnWatchlist(true)
+                is ResultState.NoData -> {
+                    showLoadingBtnWatchlist(false)
+                    showSnackBarSingleEvent(
+                        view,
+                        resultState.data,
+                        resources.getString(R.string.result_state_no_data),
+                    )
+                }
+
+                is ResultState.HasData -> {
+                    showLoadingBtnWatchlist(false)
+                    movieDetailViewModel.singleEventHasDataInsertWatchlistMovie.observe(
+                        viewLifecycleOwner
+                    ) {
+                        it.getContentIfNotHandled()?.let {
+                            movieDetailViewModel.isWatchlistMovie(idMovieDetail)
+
+                            Snackbar.make(
+                                view,
+                                resources.getString(R.string.watchlist_added),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+
+                is ResultState.Error -> {
+                    showLoadingBtnWatchlist(false)
+                    showSnackBarSingleEvent(view, resultState.message)
+                }
+            }
+        }
+    }
+
+    private fun showStateDeleteWatchlist(view: View) {
+        movieDetailViewModel.stateDeleteWatchlistMovie.observe(viewLifecycleOwner) { resultState ->
+            MyLogger.d(TAG, "stateDeleteWatchlistMovie: $resultState")
+            when (resultState) {
+                is ResultState.Initial -> showLoadingBtnWatchlist(false)
+                is ResultState.Loading -> showLoadingBtnWatchlist(true)
+                is ResultState.NoData -> {
+                    showLoadingBtnWatchlist(false)
+                    showSnackBarSingleEvent(
+                        view,
+                        resultState.data,
+                        resources.getString(R.string.result_state_no_data),
+                    )
+                }
+
+                is ResultState.HasData -> {
+                    showLoadingBtnWatchlist(false)
+                    movieDetailViewModel.singleEventHasDataDeleteWatchlistMovie.observe(
+                        viewLifecycleOwner
+                    ) {
+                        it.getContentIfNotHandled()?.let {
+                            movieDetailViewModel.isWatchlistMovie(idMovieDetail)
+
+                            Snackbar.make(
+                                view,
+                                resources.getString(R.string.watchlist_removed),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+
+                is ResultState.Error -> {
+                    showLoadingBtnWatchlist(false)
                     showSnackBarSingleEvent(view, resultState.message)
                 }
             }
@@ -149,7 +275,9 @@ class MovieDetailFragment : Fragment() {
                         movieDetailRvRecommendations.adapter = ListMovieAdapter(
                             type = "movieRecommendation",
                             data,
-                            onTap = ::onTapRecyclerView,
+                            onTap = { movieCardPModel, bindingItem ->
+                                onTapRecyclerView(view, movieCardPModel, bindingItem)
+                            },
                         )
                     }
                 }
@@ -171,6 +299,14 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
+    private fun showLoadingBtnWatchlist(isLoading: Boolean) {
+        binding.apply {
+            movieDetailBtnWatchlist.visibility = if (isLoading) View.INVISIBLE else View.VISIBLE
+            movieDetailProgressBarWatchlist.visibility =
+                if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
     private fun showLoadingRecommendation(isLoading: Boolean) {
         binding.apply {
             movieDetailRvRecommendations.visibility =
@@ -180,7 +316,16 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
+    private fun setIconBtnWatchlist(isWatchlist: Boolean) {
+        binding.movieDetailBtnWatchlist.icon = ResourcesCompat.getDrawable(
+            resources,
+            if (isWatchlist) core.drawable.ic_check_24_white else core.drawable.ic_add_24_white,
+            requireActivity().theme,
+        )
+    }
+
     private fun onTapRecyclerView(
+        view: View,
         movieCardPModel: MovieCardPModel,
         bindingItem: ItemColumnMovieBinding,
     ) {
@@ -193,26 +338,26 @@ class MovieDetailFragment : Fragment() {
             "onTap, imgUrl: ${Constant.BASE_IMAGE_URL}${movieCardPModel.posterPath}"
         )
 
+        val toMovieDetailFragment = MovieDetailFragmentDirections.actionMovieDetailFragmentSelf(movieCardPModel.id ?: 0)
+
         val extras = FragmentNavigatorExtras(
             bindingItem.itemColumnMovieImage to "movie_detail_img_movie_transition",
         )
 
-        // todo: onTap
+        view.findNavController().navigate(toMovieDetailFragment, extras)
     }
 
     private fun onRefresh() {
-        val args = MovieDetailFragmentArgs.fromBundle(arguments as Bundle)
-        val id = args.id
-        movieDetailViewModel.onRefresh(id)
+        movieDetailViewModel.onRefresh(idMovieDetail)
     }
 
-    private fun installFavoriteModule() {
+    private fun installFavoriteModule(onInstalled: () -> Unit) {
         MyLogger.d(TAG, "installFavoriteModule")
         val splitInstallManager = SplitInstallManagerFactory.create(requireActivity())
         val moduleFavorite = "favorite"
         if (splitInstallManager.installedModules.contains(moduleFavorite)) {
             MyLogger.d(TAG, "already installed")
-            addToFavorite()
+            onInstalled()
         } else {
             MyLogger.d(TAG, "not installed")
             val request = SplitInstallRequest.newBuilder()
@@ -225,7 +370,7 @@ class MovieDetailFragment : Fragment() {
                         "Success installing module",
                         Toast.LENGTH_SHORT
                     ).show()
-                    addToFavorite()
+                    onInstalled()
                 }
                 .addOnFailureListener {
                     Toast.makeText(requireActivity(), "Error installing module", Toast.LENGTH_SHORT)
@@ -234,10 +379,24 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
-    private fun addToFavorite() {
-        MyLogger.d(TAG, "addToFavorite")
-        Toast.makeText(requireActivity(), "Open module", Toast.LENGTH_SHORT).show()
-        // todo: add to favorite
+    private fun onTapBtnWatchlist(isWatchlist: Boolean, moveiDetail: MovieDetailEntity) {
+        MyLogger.d(TAG, "onTapBtnWatchlist")
+        val args = MovieDetailFragmentArgs.fromBundle(arguments as Bundle)
+        val id = args.id
+        if (isWatchlist) {
+            movieDetailViewModel.deleteWatchlistMovie(id)
+        } else {
+            movieDetailViewModel.insertWatchlistMovie(
+                DataMapperHelper.mapMovieDetailEntityToMovieEntity(
+                    moveiDetail
+                )
+            )
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

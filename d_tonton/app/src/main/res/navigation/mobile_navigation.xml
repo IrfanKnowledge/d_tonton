@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_movie_home">
+    app:startDestination="@+id/nav_movie">
 
     <!--    <fragment-->
     <!--        android:id="@+id/nav_home"-->
@@ -12,7 +12,7 @@
     <!--        tools:layout="@layout/fragment_home" />-->
 
     <fragment
-        android:id="@+id/nav_movie_home"
+        android:id="@+id/nav_movie"
         android:name="com.irfan.dtonton.presentation.page.MovieHomeFragment"
         android:label="@string/label_movie_home"
         tools:layout="@layout/fragment_movie_home">
@@ -41,5 +41,22 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_movieDetailFragment_self"
+            app:destination="@id/movieDetailFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/movieDetailFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        app:moduleName="favorite"
+        android:id="@+id/nav_watchlist_movie"
+        android:name="com.irfan.favorite.presentation.page.WatchlistMovieFragment"
+        android:label="fragment_watchlist_movie"
+        tools:layout="@layout/fragment_watchlist_movie">
+        <action
+            android:id="@+id/action_nav_watchlist_movie_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
     </fragment>
 </navigation>

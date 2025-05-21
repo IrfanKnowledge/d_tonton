@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.irfan.core.common.MyLogger
 import com.irfan.core.common.ResultState
+import com.irfan.core.common.SingleEvent
 import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
 import com.irfan.dtonton.domain.entity.movie.MovieEntity
 import com.irfan.dtonton.domain.usecase.MovieUseCase
@@ -18,21 +19,29 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(private val movieUseCase: MovieUseCase) :
     ViewModel() {
-    private val _movieDetail = MediatorLiveData<ResultState<MovieDetailEntity>>(ResultState.Initial)
+    private val _movieDetail = MediatorLiveData<ResultState<MovieDetailEntity>>()
     val movieDetail: LiveData<ResultState<MovieDetailEntity>> = _movieDetail
 
     private val _listMovieRecommendation = MediatorLiveData<ResultState<List<MovieEntity>>>()
     val listMovieRecommendation: LiveData<ResultState<List<MovieEntity>>> =
         _listMovieRecommendation
 
-    private val _insertWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
-    val insertWatchlistMovie: LiveData<ResultState<Boolean>> = _insertWatchlistMovie
+    private val _stateInsertWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
+    val stateInsertWatchlistMovie: LiveData<ResultState<Boolean>> = _stateInsertWatchlistMovie
 
-    private val _deleteWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
-    val deleteWatchlistMovie: LiveData<ResultState<Boolean>> = _deleteWatchlistMovie
+    private val _singleEventHasDataInsertWatchlistMovie = MutableLiveData<SingleEvent<Unit>>()
+    val singleEventHasDataInsertWatchlistMovie: LiveData<SingleEvent<Unit>> =
+        _singleEventHasDataInsertWatchlistMovie
 
-    private val _isWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
-    val isWatchlistMovie: LiveData<ResultState<Boolean>> = _isWatchlistMovie
+    private val _stateDeleteWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
+    val stateDeleteWatchlistMovie: LiveData<ResultState<Boolean>> = _stateDeleteWatchlistMovie
+
+    private val _singleEventHasDataDeleteWatchlistMovie = MutableLiveData<SingleEvent<Unit>>()
+    val singleEventHasDataDeleteWatchlistMovie: LiveData<SingleEvent<Unit>> =
+        _singleEventHasDataDeleteWatchlistMovie
+
+    private val _stateIsWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
+    val stateIsWatchlistMovie: LiveData<ResultState<Boolean>> = _stateIsWatchlistMovie
 
     var isInitRefresh = false
 
@@ -52,28 +61,35 @@ class MovieDetailViewModel @Inject constructor(private val movieUseCase: MovieUs
 
     fun insertWatchlistMovie(movie: MovieEntity) {
         viewModelScope.launch {
-            _insertWatchlistMovie.value = ResultState.Loading
-            _insertWatchlistMovie.value = movieUseCase.insertWatchlistMovie(movie)
+            _stateInsertWatchlistMovie.value = ResultState.Loading
+            _stateInsertWatchlistMovie.value = movieUseCase.insertWatchlistMovie(movie)
+            if (_stateInsertWatchlistMovie.value is ResultState.HasData) {
+                _singleEventHasDataInsertWatchlistMovie.value = SingleEvent(Unit)
+            }
         }
     }
 
     fun deleteWatchlistMovie(id: Int) {
         viewModelScope.launch {
-            _deleteWatchlistMovie.value = ResultState.Loading
-            _deleteWatchlistMovie.value = movieUseCase.deleteWatchlistMovie(id)
+            _stateDeleteWatchlistMovie.value = ResultState.Loading
+            _stateDeleteWatchlistMovie.value = movieUseCase.deleteWatchlistMovie(id)
+            if (_stateDeleteWatchlistMovie.value is ResultState.HasData) {
+                _singleEventHasDataDeleteWatchlistMovie.value = SingleEvent(Unit)
+            }
         }
     }
 
     fun isWatchlistMovie(id: Int) {
         viewModelScope.launch {
-            _isWatchlistMovie.value = ResultState.Loading
-            _isWatchlistMovie.value = movieUseCase.isWatchlistMovie(id)
+            _stateIsWatchlistMovie.value = ResultState.Loading
+            _stateIsWatchlistMovie.value = movieUseCase.isWatchlistMovie(id)
         }
     }
 
     fun onRefresh(id: Int) {
         fetchMovieDetail(id)
         fetchMovieDetailListRecommendation(id)
+        isWatchlistMovie(id)
     }
 
     override fun onCleared() {

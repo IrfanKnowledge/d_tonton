@@ -4,7 +4,8 @@ plugins {
     id("kotlin-parcelize") // parcelize plugin
     id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
     alias(libs.plugins.devtools.ksp) // ksp pengganti kapt
-//    alias(libs.plugins.dagger.hilt.android) // dagger hilt
+    // tidak tahu kenapa jika saya aktifkan ini maka error saat sync gradle
+    // alias(libs.plugins.dagger.hilt.android) // dagger hilt
 }
 android {
     namespace = "com.irfan.favorite"
@@ -44,9 +45,15 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":app"))
 
+    // in fragments, example: val someViewModel: by viewModels()
+    implementation(libs.androidx.fragment.ktx)
+
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
     implementation(libs.androidx.swiperefreshlayout) // swipe refresh
+
+    implementation(libs.androidx.navigation.fragment.ktx) // navigation component
+    implementation(libs.androidx.navigation.ui.ktx) // navigation component
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

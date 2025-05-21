@@ -54,15 +54,36 @@ android {
 dependencies {
     implementation(project(":core"))
 
-    implementation(libs.feature.delivery) // module dynamic feature
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // in fragments, example: val someViewModel: by viewModels()
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.navigation.fragment.ktx) // navigation component
+    implementation(libs.androidx.navigation.ui.ktx) // navigation component
+    implementation(libs.retrofit) // request implementation
+    implementation(libs.converter.gson) // parsing response implementation
+    implementation(libs.logging.interceptor) // logging implementation
+    // Library dasar coroutine
+    implementation(libs.kotlinx.coroutines.core)
+    // Library untuk memudahkan threading di Android
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.feature.delivery) // dynamic feature
     implementation(libs.androidx.legacy.support.v4)
 
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
     implementation(libs.androidx.swiperefreshlayout) // swipe refresh
 
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime) // room
+    ksp(libs.androidx.room.compiler) // room
+
+    // navigation component untuk dynamic feature
+    implementation(libs.androidx.navigation.dynamic.features.fragment)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

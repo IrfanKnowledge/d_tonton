@@ -44,7 +44,7 @@ object DataMapperHelper {
         return MovieDetailEntity(
             adult = input.adult,
             backdropPath = input.backdropPath,
-            genres = input.genres.map {
+            genres = input.genres?.map {
                 GenreEntity(
                     id = it.id,
                     name = it.name,
@@ -53,10 +53,12 @@ object DataMapperHelper {
             id = input.id,
             originalTitle = input.originalTitle,
             overview = input.overview,
+            popularity = input.popularity,
             posterPath = input.posterPath,
             releaseDate = input.releaseDate,
             runtime = input.runtime,
             title = input.title,
+            video = input.video,
             voteAverage = input.voteAverage,
             voteCount = input.voteCount,
         )
@@ -67,7 +69,7 @@ object DataMapperHelper {
             id = input.id,
             posterPath = input.posterPath,
             title = input.title,
-            listGenre = input.genres.map {
+            listGenre = input.genres?.map {
                 it.name
             },
             runtime = input.runtime,
@@ -102,11 +104,29 @@ object DataMapperHelper {
         type: WatchlistTypeEnum,
     ): WatchlistTable {
         return WatchlistTable(
-            id = input.id,
+            id = input.id ?: 0,
             title = input.title,
             posterPath = input.posterPath,
             overview = input.overview,
             watchlistType = type,
+        )
+    }
+
+    fun mapMovieDetailEntityToMovieEntity(input: MovieDetailEntity): MovieEntity {
+        return MovieEntity(
+            adult = input.adult,
+            backdropPath = input.backdropPath,
+            genreIds = input.genres?.map { it.id },
+            id = input.id,
+            originalTitle = input.originalTitle,
+            overview = input.overview,
+            popularity = input.popularity,
+            posterPath = input.posterPath,
+            releaseDate = input.releaseDate,
+            title = input.title,
+            video = input.video,
+            voteAverage = input.voteAverage,
+            voteCount = input.voteCount,
         )
     }
 }

@@ -11,18 +11,23 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_movie">Movie</string>
+    <string name="menu_watchlist_movie">Watchlist Movie</string>
 
     <string name="title_favorite">Favorite</string>
-    <string name="result_state_no_data">Tidak ada data</string>
+    <string name="result_state_no_data">No data</string>
     <string name="label_movie_home">Movie Home</string>
     <string name="now_playing">Now Playing</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top Rated</string>
     <string name="movie_detail">Movie Detail</string>
     <string name="movie_poster">Movie Poster</string>
+    <string name="watchlist_poster">Watchlist Poster</string>
+    <string name="watchlist_movie">Watchlist - Movies</string>
     <string name="rating">Rating:</string>
     <string name="overview">Overview</string>
     <string name="recommendations">Recommendations</string>
     <string name="watchlist">Watchlist</string>
     <string name="rating_value">%.1f/10 (%d)</string>
+    <string name="watchlist_added">Success Added</string>
+    <string name="watchlist_removed">Watchlist remove</string>
 </resources>

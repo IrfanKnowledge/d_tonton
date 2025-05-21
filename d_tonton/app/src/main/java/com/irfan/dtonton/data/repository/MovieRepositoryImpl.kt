@@ -45,7 +45,7 @@ class MovieRepositoryImpl @Inject constructor(
             when (result) {
                 is ResultState.Initial -> ResultState.Initial
                 is ResultState.Loading -> ResultState.Loading
-                is ResultState.NoData -> ResultState.NoData(SingleEvent(Unit))
+                is ResultState.NoData -> ResultState.NoData(result.data)
                 is ResultState.HasData -> ResultState.HasData(
                     DataMapperHelper.mapListMovieModelToListMovieEntity(
                         result.data
@@ -62,7 +62,7 @@ class MovieRepositoryImpl @Inject constructor(
             when (result) {
                 is ResultState.Initial -> ResultState.Initial
                 is ResultState.Loading -> ResultState.Loading
-                is ResultState.NoData -> ResultState.NoData(SingleEvent(Unit))
+                is ResultState.NoData -> ResultState.NoData(result.data)
                 is ResultState.HasData -> ResultState.HasData(
                     DataMapperHelper.mapListMovieModelToListMovieEntity(
                         result.data
@@ -79,7 +79,7 @@ class MovieRepositoryImpl @Inject constructor(
             when (result) {
                 is ResultState.Initial -> ResultState.Initial
                 is ResultState.Loading -> ResultState.Loading
-                is ResultState.NoData -> ResultState.NoData(SingleEvent(Unit))
+                is ResultState.NoData -> ResultState.NoData(result.data)
                 is ResultState.HasData -> ResultState.HasData(
                     DataMapperHelper.mapMovieDetailModelToMovieDetailEntity(
                         result.data
@@ -96,7 +96,7 @@ class MovieRepositoryImpl @Inject constructor(
             when (result) {
                 is ResultState.Initial -> ResultState.Initial
                 is ResultState.Loading -> ResultState.Loading
-                is ResultState.NoData -> ResultState.NoData(SingleEvent(Unit))
+                is ResultState.NoData -> ResultState.NoData(result.data)
                 is ResultState.HasData -> ResultState.HasData(
                     DataMapperHelper.mapListMovieModelToListMovieEntity(
                         result.data
@@ -110,18 +110,23 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun getWatchlistMovie(): Flow<ResultState<List<MovieEntity>>> {
         return flow {
-            emit(ResultState.Loading)
-            val dataModel = movieLocalDataSource.getWatchlistMovie()
-            dataModel.collect { result ->
-                if (result.isEmpty()) {
-                    emit(ResultState.NoData(SingleEvent(Unit)))
-                } else {
-                    emit(
-                        ResultState.HasData(
-                            DataMapperHelper.mapListWatchlistTableToListMovieEntity(result),
-                        ),
-                    )
+            try {
+                emit(ResultState.Loading)
+                val dataModel = movieLocalDataSource.getWatchlistMovie()
+                dataModel.collect { resultList ->
+                    if (resultList.isEmpty()) {
+                        emit(ResultState.NoData(SingleEvent(Unit)))
+                    } else {
+                        emit(
+                            ResultState.HasData(
+                                DataMapperHelper.mapListWatchlistTableToListMovieEntity(resultList),
+                            ),
+                        )
+                    }
                 }
+            } catch (e: Exception) {
+                MyLogger.e(TAG, e.message.toString())
+                emit(ResultState.Error(SingleEvent(e.message.toString())))
             }
         }
     }
