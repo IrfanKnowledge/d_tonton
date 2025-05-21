@@ -168,13 +168,5 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val apiService: ApiS
 
     companion object {
         private const val TAG = "MovieRemoteDataSource"
-
-//        @Volatile
-//        private var instance: MovieRemoteDataSourceImpl? = null
-//
-//        fun getInstance(apiService: ApiService): MovieRemoteDataSourceImpl =
-//            instance ?: synchronized(this) {
-//                instance ?: MovieRemoteDataSourceImpl(apiService)
-//            }.also { instance = it }
     }
 }

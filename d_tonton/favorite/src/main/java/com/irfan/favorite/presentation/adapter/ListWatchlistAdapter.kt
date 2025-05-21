@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.irfan.core.common.Constant
-import com.irfan.core.common.MyLogger
 import com.irfan.core.common.loadImage
 import com.irfan.favorite.databinding.ItemRowWatchlistBinding
 import com.irfan.favorite.presentation.model.WatchlistCardListPModel
@@ -24,11 +23,9 @@ class ListWatchlistAdapter(
 
     override fun onBindViewHolder(holder: ListWatchlistAdapter.ListViewHolder, position: Int) {
         val watchlist = listWatchlist[position]
-        MyLogger.d(TAG, "onBindViewHolder, istWatchlist.size: ${listWatchlist.size}")
-        MyLogger.d(TAG, "onBindViewHolder, watchlist: $watchlist")
+        val id = watchlist.id.toString()
 
         holder.binding.apply {
-            val id = watchlist.id.toString()
             watchlist.posterPath?.let { posterPath ->
                 itemRowWatchlistImg.loadImage("${Constant.BASE_IMAGE_URL}$posterPath")
                 itemRowWatchlistImg.transitionName =

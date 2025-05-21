@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.irfan.core.common.MyLogger
 import com.irfan.core.common.ResultState
 import com.irfan.dtonton.domain.entity.movie.MovieEntity
 import com.irfan.dtonton.domain.usecase.MovieUseCase
@@ -13,6 +14,7 @@ class WatchlistMovieViewModel(private val movieUseCase: MovieUseCase) : ViewMode
     val listWatchlistMovie: LiveData<ResultState<List<MovieEntity>>> = _listWatchlistMovie
 
     init {
+        MyLogger.d(TAG, "init")
         fetchListWatchlistMovie()
     }
 
@@ -24,5 +26,9 @@ class WatchlistMovieViewModel(private val movieUseCase: MovieUseCase) : ViewMode
 
     fun onRefresh() {
         fetchListWatchlistMovie()
+    }
+
+    companion object {
+        const val TAG = "WatchlistMovieViewModel"
     }
 }

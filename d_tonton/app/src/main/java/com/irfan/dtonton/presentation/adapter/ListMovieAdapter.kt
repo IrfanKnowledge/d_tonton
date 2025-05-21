@@ -24,9 +24,9 @@ class ListMovieAdapter(
 
     override fun onBindViewHolder(holder: ListMovieAdapter.ListViewHolder, position: Int) {
         val movie = listMovie[position]
-        holder.binding.apply {
-            val id = movie.id.toString()
-            movie.posterPath?.let { posterPath ->
+        val id = movie.id.toString()
+        movie.posterPath?.let { posterPath ->
+            holder.binding.apply {
                 itemColumnMovieImage.loadImage("${Constant.BASE_IMAGE_URL}$posterPath")
                 itemColumnMovieImage.transitionName =
                     "item_column_movie_image_${type}_${id}_$position"

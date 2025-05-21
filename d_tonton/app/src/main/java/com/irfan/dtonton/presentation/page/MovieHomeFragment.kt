@@ -54,10 +54,13 @@ class MovieHomeFragment : Fragment() {
         showRecyclerViewPopular(view)
         showRecyclerViewTopRated(view)
 
-        binding.movieHomeSwipeRefresh.setOnRefreshListener {
-            binding.movieHomeSwipeRefresh.isRefreshing = false
-            movieHomeViewModel.onRefresh()
+        binding.apply {
+            movieHomeSwipeRefresh.setOnRefreshListener {
+                movieHomeSwipeRefresh.isRefreshing = false
+                movieHomeViewModel.onRefresh()
+            }
         }
+
     }
 
     private fun showRecyclerViewNowPlaying(view: View) {
@@ -91,7 +94,7 @@ class MovieHomeFragment : Fragment() {
                             )
                         }
                         movieHomeRvNowPlaying.adapter = ListMovieAdapter(
-                            type = "movieNowPlaying",
+                            type = TYPE_NOW_PLAYING,
                             data,
                             onTap = { movieCardPModel, bindingItem ->
                                 onTapRecyclerView(view, movieCardPModel, bindingItem)
@@ -138,7 +141,7 @@ class MovieHomeFragment : Fragment() {
                             )
                         }
                         movieHomeRvPopular.adapter = ListMovieAdapter(
-                            type = "moviePopular",
+                            type = TYPE_POPULAR,
                             data,
                             onTap = { movieCardPModel, bindingItem ->
                                 onTapRecyclerView(view, movieCardPModel, bindingItem)
@@ -186,7 +189,7 @@ class MovieHomeFragment : Fragment() {
                             )
                         }
                         movieHomeRvTopRated.adapter = ListMovieAdapter(
-                            type = "movieTopRated",
+                            type = TYPE_TOP_RATED,
                             data,
                             onTap = { movieCardPModel, bindingItem ->
                                 onTapRecyclerView(view, movieCardPModel, bindingItem)
@@ -243,7 +246,7 @@ class MovieHomeFragment : Fragment() {
             MovieHomeFragmentDirections.actionNavMovieHomeToMovieDetailFragment(id ?: 0)
 
         val extras = FragmentNavigatorExtras(
-            bindingItem.itemColumnMovieImage to "movie_detail_img_movie_transition",
+            bindingItem.itemColumnMovieImage to MOVIE_DETAIL_IMG_MOVIE_TRANSITION,
         )
 
         view.findNavController().navigate(toMovieDetailFragment, extras)
@@ -256,5 +259,9 @@ class MovieHomeFragment : Fragment() {
 
     companion object {
         const val TAG = "MovieHomeFragment"
+        const val TYPE_NOW_PLAYING = "movieNowPlaying"
+        const val TYPE_POPULAR = "moviePopular"
+        const val TYPE_TOP_RATED = "movieTopRated"
+        const val MOVIE_DETAIL_IMG_MOVIE_TRANSITION = "movie_detail_img_movie_transition"
     }
 }

@@ -64,6 +64,7 @@ class MovieDetailFragment : Fragment() {
 
 
         if (!movieDetailViewModel.isInitRefresh) {
+            MyLogger.d(TAG, "onViewCreated, initRefresh")
             movieDetailViewModel.isInitRefresh = true
             onRefresh()
         }
@@ -73,7 +74,7 @@ class MovieDetailFragment : Fragment() {
 
         binding.apply {
             movieDetailSwipeRefresh.setOnRefreshListener {
-                binding.movieDetailSwipeRefresh.isRefreshing = false
+                movieDetailSwipeRefresh.isRefreshing = false
                 onRefresh()
             }
 
@@ -103,13 +104,20 @@ class MovieDetailFragment : Fragment() {
                         DataMapperHelper.mapMovieDetailEntityToMovieDetailPModel(resultState.data)
 
                     binding.apply {
-                        movieDetailImgMovie.loadImage(Constant.BASE_IMAGE_URL + data.posterPath)
-                        movieDetailTvTitle.text = data.title
-                        movieDetailTvGenre.text = data.listGenre?.joinToString()
-                        movieDetailTvDuration.text = data.runtime.toString()
-                        movieDetailTvRatingValue.text =
-                            getString(core.string.rating_value, data.voteAverage, data.voteCount)
-                        movieDetailTvDescription.text = data.overview
+                        data.apply {
+                            movieDetailImgMovie.loadImage(Constant.BASE_IMAGE_URL + posterPath)
+                            movieDetailTvTitle.text = title
+                            movieDetailTvGenre.text = listGenre?.joinToString()
+                            runtime?.let {
+                                val hours = it / 60
+                                val minutes = it % 60
+                                movieDetailTvDuration.text =
+                                    getString(core.string.duration_value, hours, minutes)
+                            }
+                            movieDetailTvRatingValue.text =
+                                getString(core.string.rating_value, voteAverage, voteCount)
+                            movieDetailTvDescription.text = overview
+                        }
                     }
 
                     showStateIsWatchlist(view, resultState.data)
@@ -143,11 +151,9 @@ class MovieDetailFragment : Fragment() {
 
                     setIconBtnWatchlist(resultState.data)
 
-                    binding.apply {
-                        movieDetailBtnWatchlist.setOnClickListener {
-                            installFavoriteModule {
-                                onTapBtnWatchlist(resultState.data, moveiDetail)
-                            }
+                    binding.movieDetailBtnWatchlist.setOnClickListener {
+                        installFavoriteModule {
+                            onTapBtnWatchlist(resultState.data, moveiDetail)
                         }
                     }
 
@@ -273,7 +279,7 @@ class MovieDetailFragment : Fragment() {
                             )
                         }
                         movieDetailRvRecommendations.adapter = ListMovieAdapter(
-                            type = "movieRecommendation",
+                            type = MOVIE_RECOMMENDATION,
                             data,
                             onTap = { movieCardPModel, bindingItem ->
                                 onTapRecyclerView(view, movieCardPModel, bindingItem)
@@ -338,10 +344,11 @@ class MovieDetailFragment : Fragment() {
             "onTap, imgUrl: ${Constant.BASE_IMAGE_URL}${movieCardPModel.posterPath}"
         )
 
-        val toMovieDetailFragment = MovieDetailFragmentDirections.actionMovieDetailFragmentSelf(movieCardPModel.id ?: 0)
+        val toMovieDetailFragment =
+            MovieDetailFragmentDirections.actionMovieDetailFragmentSelf(movieCardPModel.id ?: 0)
 
         val extras = FragmentNavigatorExtras(
-            bindingItem.itemColumnMovieImage to "movie_detail_img_movie_transition",
+            bindingItem.itemColumnMovieImage to MOVIE_DETAIL_IMG_MOVIE_TRANSITION,
         )
 
         view.findNavController().navigate(toMovieDetailFragment, extras)
@@ -354,7 +361,7 @@ class MovieDetailFragment : Fragment() {
     private fun installFavoriteModule(onInstalled: () -> Unit) {
         MyLogger.d(TAG, "installFavoriteModule")
         val splitInstallManager = SplitInstallManagerFactory.create(requireActivity())
-        val moduleFavorite = "favorite"
+        val moduleFavorite = FAVORITE
         if (splitInstallManager.installedModules.contains(moduleFavorite)) {
             MyLogger.d(TAG, "already installed")
             onInstalled()
@@ -367,13 +374,13 @@ class MovieDetailFragment : Fragment() {
                 .addOnSuccessListener {
                     Toast.makeText(
                         requireActivity(),
-                        "Success installing module",
+                        SUCCESS_INSTALLING_MODULE,
                         Toast.LENGTH_SHORT
                     ).show()
                     onInstalled()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(requireActivity(), "Error installing module", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireActivity(), ERROR_INSTALLING_MODULE, Toast.LENGTH_SHORT)
                         .show()
                 }
         }
@@ -386,10 +393,11 @@ class MovieDetailFragment : Fragment() {
         if (isWatchlist) {
             movieDetailViewModel.deleteWatchlistMovie(id)
         } else {
+            val movieEntity = DataMapperHelper.mapMovieDetailEntityToMovieEntity(
+                moveiDetail
+            )
             movieDetailViewModel.insertWatchlistMovie(
-                DataMapperHelper.mapMovieDetailEntityToMovieEntity(
-                    moveiDetail
-                )
+                movieEntity
             )
         }
     }
@@ -401,5 +409,10 @@ class MovieDetailFragment : Fragment() {
 
     companion object {
         const val TAG = "MovieDetailFragment"
+        const val MOVIE_RECOMMENDATION = "movieRecommendation"
+        const val MOVIE_DETAIL_IMG_MOVIE_TRANSITION = "movie_detail_img_movie_transition"
+        const val FAVORITE = "favorite"
+        const val SUCCESS_INSTALLING_MODULE = "Success installing module"
+        const val ERROR_INSTALLING_MODULE = "Error installing module"
     }
 }

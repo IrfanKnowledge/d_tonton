@@ -2,8 +2,8 @@
     <string name="app_name">D Tonton</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">D Tonton</string>
+    <string name="nav_header_subtitle">https://www.themoviedb.org/</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -28,6 +28,7 @@
     <string name="recommendations">Recommendations</string>
     <string name="watchlist">Watchlist</string>
     <string name="rating_value">%.1f/10 (%d)</string>
+    <string name="duration_value">%1$d hours %2$d minutes</string>"
     <string name="watchlist_added">Success Added</string>
     <string name="watchlist_removed">Watchlist remove</string>
 </resources>

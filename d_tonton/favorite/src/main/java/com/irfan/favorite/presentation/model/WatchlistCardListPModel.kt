@@ -9,4 +9,4 @@ data class WatchlistCardListPModel(
     val posterPath: String?,
     val title: String?,
     val overview: String?,
-): Parcelable
+) : Parcelable

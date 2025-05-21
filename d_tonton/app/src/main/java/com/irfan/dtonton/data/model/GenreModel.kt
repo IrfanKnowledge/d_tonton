@@ -7,5 +7,5 @@ data class GenreModel(
     val id: Int,
 
     @field:SerializedName("name")
-    val name: String
+    val name: String,
 )

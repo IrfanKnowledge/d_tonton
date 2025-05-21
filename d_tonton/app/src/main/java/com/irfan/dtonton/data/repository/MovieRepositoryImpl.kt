@@ -177,12 +177,5 @@ class MovieRepositoryImpl @Inject constructor(
         private const val FAILED_TO_ADD_TO_WATCHLIST_MESSAGE = "Failed to add to watchlist"
         private const val FAILED_TO_DELETE_FROM_WATCHLIST_MESSAGE =
             "Failed to delete from watchlist"
-
-//        @Volatile
-//        private var instance: MovieRepositoryImpl? = null
-//        fun getInstance(movieRemoteDataSource: MovieRemoteDataSource): MovieRepositoryImpl =
-//            instance ?: synchronized(this) {
-//                instance ?: MovieRepositoryImpl(movieRemoteDataSource)
-//            }.also { instance = it }
     }
 }

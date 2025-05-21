@@ -13,16 +13,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieHomeViewModel @Inject constructor(private val movieUseCase: MovieUseCase) : ViewModel() {
-    private val _listMovieNowPlaying = MediatorLiveData<ResultState<List<MovieEntity>>>(ResultState.Initial)
+    private val _listMovieNowPlaying =
+        MediatorLiveData<ResultState<List<MovieEntity>>>()
     val listMovieNowPlaying: LiveData<ResultState<List<MovieEntity>>> = _listMovieNowPlaying
 
-    private val _listMoviePopular = MediatorLiveData<ResultState<List<MovieEntity>>>(ResultState.Initial)
+    private val _listMoviePopular =
+        MediatorLiveData<ResultState<List<MovieEntity>>>()
     val listMoviePopular: LiveData<ResultState<List<MovieEntity>>> = _listMoviePopular
 
-    private val _listMovieTopRated = MediatorLiveData<ResultState<List<MovieEntity>>>(ResultState.Initial)
+    private val _listMovieTopRated =
+        MediatorLiveData<ResultState<List<MovieEntity>>>()
     val listMovieTopRated: LiveData<ResultState<List<MovieEntity>>> = _listMovieTopRated
 
     init {
+        MyLogger.d(TAG, "init")
         onRefresh()
     }
 
@@ -43,7 +47,7 @@ class MovieHomeViewModel @Inject constructor(private val movieUseCase: MovieUseC
             _listMovieTopRated.value = it
         }
     }
-    
+
     fun onRefresh() {
         fetchListMovieNowPlaying()
         fetchListMoviePopular()

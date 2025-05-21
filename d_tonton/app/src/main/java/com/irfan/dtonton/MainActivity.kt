@@ -17,7 +17,6 @@ import com.irfan.core.R as core
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -37,28 +36,28 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_movie, R.id.nav_watchlist_movie, R.id.nav_slideshow
-            ), drawerLayout,
+                R.id.nav_movie, R.id.nav_watchlist_movie
+            ),
+            drawerLayout,
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.appBarMain.toolbar.navigationIcon = AppCompatResources.getDrawable(this, core.drawable.ic_drawer_24px_white)
-            binding.appBarMain.toolbar.setNavigationIconTint(getColor(core.color.md_theme_onPrimary))
+            val toolbar = binding.appBarMain.toolbar
 
-            val setOfDrawerMenu =  setOf(R.id.movieDetailFragment, R.id.nav_watchlist_movie)
+            toolbar.navigationIcon =
+                AppCompatResources.getDrawable(
+                    this@MainActivity,
+                    core.drawable.ic_drawer_24px_white
+                )
+            toolbar.setNavigationIconTint(getColor(core.color.md_theme_onPrimary))
 
-            when {
-                setOfDrawerMenu.contains(destination.id) -> {
-                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                    binding.appBarMain.toolbar.visibility = View.GONE
-                }
-                else -> {
-                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                    binding.appBarMain.toolbar.visibility = View.VISIBLE
-                }
-            }
+            val setOfDrawerMenu = setOf(R.id.movieDetailFragment, R.id.nav_watchlist_movie)
+            val isDrawerMenu = setOfDrawerMenu.contains(destination.id)
+
+            drawerLayout.setDrawerLockMode(if (isDrawerMenu) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED)
+            toolbar.visibility = if (isDrawerMenu) View.GONE else View.VISIBLE
         }
     }
 

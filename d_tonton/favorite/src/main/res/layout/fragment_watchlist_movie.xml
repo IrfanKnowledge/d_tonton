@@ -33,16 +33,16 @@
             android:id="@+id/watchlist_movie_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp"
-            android:paddingHorizontal="8dp"/>
+            android:paddingHorizontal="@dimen/watchlist_movie_padding_horizontal"
+            android:paddingTop="@dimen/watchlist_movie_padding_top"
+            android:paddingBottom="@dimen/watchlist_movie_padding_bottom" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/watchlist_movie_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center"
-        tools:visibility="visible"/>
+        android:visibility="gone"
+        tools:visibility="visible" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

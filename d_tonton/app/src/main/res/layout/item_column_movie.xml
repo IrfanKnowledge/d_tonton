@@ -11,9 +11,9 @@
     <ImageView
         android:id="@+id/item_column_movie_image"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/movie_home_card_height"
         android:contentDescription="@string/movie_poster"
         android:scaleType="centerInside"
-        tools:src="@tools:sample/backgrounds/scenic"/>
+        tools:src="@tools:sample/backgrounds/scenic" />
 
 </androidx.cardview.widget.CardView>

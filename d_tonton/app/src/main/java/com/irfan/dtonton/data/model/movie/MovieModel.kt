@@ -40,5 +40,5 @@ data class MovieModel(
     val voteAverage: Double?,
 
     @field:SerializedName("vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
 )

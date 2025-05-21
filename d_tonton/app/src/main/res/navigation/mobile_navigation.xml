@@ -5,12 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_movie">
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/nav_home"-->
-    <!--        android:name="com.irfan.dtonton.presentation.page.home.HomeFragment"-->
-    <!--        android:label="@string/menu_home"-->
-    <!--        tools:layout="@layout/fragment_home" />-->
-
     <fragment
         android:id="@+id/nav_movie"
         android:name="com.irfan.dtonton.presentation.page.MovieHomeFragment"
@@ -20,18 +14,6 @@
             android:id="@+id/action_nav_movie_home_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.irfan.dtonton.presentation.page.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.irfan.dtonton.presentation.page.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
 
     <fragment
         android:id="@+id/movieDetailFragment"
@@ -50,10 +32,10 @@
     </fragment>
 
     <fragment
-        app:moduleName="favorite"
         android:id="@+id/nav_watchlist_movie"
         android:name="com.irfan.favorite.presentation.page.WatchlistMovieFragment"
         android:label="fragment_watchlist_movie"
+        app:moduleName="favorite"
         tools:layout="@layout/fragment_watchlist_movie">
         <action
             android:id="@+id/action_nav_watchlist_movie_to_movieDetailFragment"

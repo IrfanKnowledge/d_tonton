@@ -6,7 +6,6 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -73,7 +72,7 @@ class WatchlistMovieFragment : Fragment() {
 
         binding.apply {
             watchlistMovieSwipeRefresh.setOnRefreshListener {
-                binding.watchlistMovieSwipeRefresh.isRefreshing = false
+                watchlistMovieSwipeRefresh.isRefreshing = false
                 watchlistMovieViewModel.onRefresh()
             }
             watchlistMovieToolbar.setNavigationOnClickListener {
@@ -118,8 +117,13 @@ class WatchlistMovieFragment : Fragment() {
                                         parent: RecyclerView,
                                         state: RecyclerView.State,
                                     ) {
-                                        if (parent.getChildAdapterPosition(view) != 0) {
+                                        val position = parent.getChildAdapterPosition(view)
+                                        if (position >= 0) {
                                             outRect.top =
+                                                resources.getDimensionPixelSize(core.dimen.watchlist_rv_gap_8dp)
+                                        }
+                                        if (position == data.lastIndex) {
+                                            outRect.bottom =
                                                 resources.getDimensionPixelSize(core.dimen.watchlist_rv_gap_8dp)
                                         }
                                     }
@@ -155,13 +159,15 @@ class WatchlistMovieFragment : Fragment() {
         val toMovieDetailFragment =
             WatchlistMovieFragmentDirections.actionNavWatchlistMovieToMovieDetailFragment(id ?: 0)
 
-        val extras = FragmentNavigatorExtras(
-            bindingItem.itemRowWatchlistImg to "movie_detail_img_movie_transition",
-            bindingItem.itemRowWatchlistTvTitle to "movie_detail_tv_title_transition",
-            bindingItem.itemRowWatchlistTvDescription to "movie_detail_tv_overview_transition",
-        )
+        bindingItem.apply {
+            val extras = FragmentNavigatorExtras(
+                itemRowWatchlistImg to TRANSITION_NAME_IMAGE,
+                itemRowWatchlistTvTitle to TRANSITION_NAME_TITLE,
+                itemRowWatchlistTvDescription to TRANSITION_NAME_OVERVIEW,
+            )
 
-        view.findNavController().navigate(toMovieDetailFragment, extras)
+            view.findNavController().navigate(toMovieDetailFragment, extras)
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -178,6 +184,8 @@ class WatchlistMovieFragment : Fragment() {
 
     companion object {
         const val TAG = "WatchlistMovieFragment"
-
+        const val TRANSITION_NAME_IMAGE = "movie_detail_img_movie_transition"
+        const val TRANSITION_NAME_TITLE = "movie_detail_tv_title_transition"
+        const val TRANSITION_NAME_OVERVIEW = "movie_detail_tv_overview_transition"
     }
 }
