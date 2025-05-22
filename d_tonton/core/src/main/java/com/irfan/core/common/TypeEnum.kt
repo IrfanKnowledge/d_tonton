@@ -1,4 +1,4 @@
-package com.irfan.dtonton.data.model
+package com.irfan.core.common
 
 enum class WatchlistTypeEnum {
     MOVIE,

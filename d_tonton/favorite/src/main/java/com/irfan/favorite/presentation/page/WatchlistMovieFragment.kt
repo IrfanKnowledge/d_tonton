@@ -16,7 +16,6 @@ import com.irfan.core.common.MyLogger
 import com.irfan.core.common.ResultState
 import com.irfan.core.common.SnackBarHelper.showSnackBarSingleEvent
 import com.irfan.dtonton.di.FavoriteModuleDependencies
-import com.irfan.favorite.common.DataMapperHelper
 import com.irfan.favorite.databinding.FragmentWatchlistMovieBinding
 import com.irfan.favorite.databinding.ItemRowWatchlistBinding
 import com.irfan.favorite.di.DaggerFavoriteComponent
@@ -99,8 +98,7 @@ class WatchlistMovieFragment : Fragment() {
                 is ResultState.HasData -> {
                     MyLogger.d(TAG, "ResultState.HasData, length: ${resultState.data.size}")
                     showLoading(false)
-                    val data =
-                        DataMapperHelper.mapListMovieEntityToListWatchlistCardListPModel(resultState.data)
+                    val data = resultState.data
                     binding.apply {
                         watchlistMovieRv.layoutManager = LinearLayoutManager(
                             requireActivity(),

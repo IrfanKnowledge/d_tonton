@@ -1,7 +1,7 @@
 package com.irfan.dtonton.data.utils.local
 
 import androidx.room.TypeConverter
-import com.irfan.dtonton.data.model.WatchlistTypeEnum
+import com.irfan.core.common.WatchlistTypeEnum
 
 class WatchlistTypeEnumConverter {
     @TypeConverter

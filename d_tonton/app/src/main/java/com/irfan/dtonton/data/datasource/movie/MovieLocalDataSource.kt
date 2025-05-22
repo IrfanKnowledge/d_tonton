@@ -1,7 +1,7 @@
 package com.irfan.dtonton.data.datasource.movie
 
+import com.irfan.core.common.WatchlistTypeEnum
 import com.irfan.dtonton.data.model.WatchlistTable
-import com.irfan.dtonton.data.model.WatchlistTypeEnum
 import com.irfan.dtonton.data.utils.local.WatchlistDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -13,7 +13,6 @@ import com.irfan.core.common.Constant
 import com.irfan.core.common.MyLogger
 import com.irfan.core.common.ResultState
 import com.irfan.core.common.SnackBarHelper.showSnackBarSingleEvent
-import com.irfan.dtonton.common.DataMapperHelper
 import com.irfan.dtonton.common.RvHelper.rvItemDecoration
 import com.irfan.dtonton.common.RvHelper.rvLayoutManager
 import com.irfan.dtonton.databinding.FragmentMovieHomeBinding
@@ -79,8 +78,7 @@ class MovieHomeFragment : Fragment() {
 
                 is ResultState.HasData -> {
                     showLoadingNowPlaying(false)
-                    val data =
-                        DataMapperHelper.mapListMovieEntityToListMovieCardPModel(resultState.data)
+                    val data = resultState.data
 
                     binding.apply {
                         movieHomeRvNowPlaying.layoutManager = rvLayoutManager(requireActivity())
@@ -127,8 +125,7 @@ class MovieHomeFragment : Fragment() {
 
                 is ResultState.HasData -> {
                     showLoadingPopular(false)
-                    val data =
-                        DataMapperHelper.mapListMovieEntityToListMovieCardPModel(resultState.data)
+                    val data = resultState.data
                     binding.apply {
                         movieHomeRvPopular.layoutManager = rvLayoutManager(requireActivity())
                         if (movieHomeRvPopular.itemDecorationCount <= 0) {
@@ -174,8 +171,7 @@ class MovieHomeFragment : Fragment() {
 
                 is ResultState.HasData -> {
                     showLoadingTopRated(false)
-                    val data =
-                        DataMapperHelper.mapListMovieEntityToListMovieCardPModel(resultState.data)
+                    val data = resultState.data
 
                     binding.apply {
                         movieHomeRvTopRated.layoutManager = rvLayoutManager(requireActivity())

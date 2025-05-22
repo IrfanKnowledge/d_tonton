@@ -1,7 +1,7 @@
 package com.irfan.dtonton.common
 
+import com.irfan.core.common.WatchlistTypeEnum
 import com.irfan.dtonton.data.model.WatchlistTable
-import com.irfan.dtonton.data.model.WatchlistTypeEnum
 import com.irfan.dtonton.data.model.movie.MovieDetailModel
 import com.irfan.dtonton.data.model.movie.MovieModel
 import com.irfan.dtonton.domain.entity.GenreEntity
@@ -112,19 +112,19 @@ object DataMapperHelper {
         )
     }
 
-    fun mapMovieDetailEntityToMovieEntity(input: MovieDetailEntity): MovieEntity {
+    fun mapMovieDetailPModelToMovieEntity(input: MovieDetailPModel): MovieEntity {
         return MovieEntity(
-            adult = input.adult,
-            backdropPath = input.backdropPath,
-            genreIds = input.genres?.map { it.id },
+            adult = null,
+            backdropPath = input.posterPath,
+            genreIds = null,
             id = input.id,
-            originalTitle = input.originalTitle,
+            originalTitle = null,
             overview = input.overview,
-            popularity = input.popularity,
+            popularity = null,
             posterPath = input.posterPath,
-            releaseDate = input.releaseDate,
+            releaseDate = null,
             title = input.title,
-            video = input.video,
+            video = null,
             voteAverage = input.voteAverage,
             voteCount = input.voteCount,
         )

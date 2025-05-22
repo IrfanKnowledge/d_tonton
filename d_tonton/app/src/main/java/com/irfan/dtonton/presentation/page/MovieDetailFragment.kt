@@ -20,14 +20,13 @@ import com.irfan.core.common.MyLogger
 import com.irfan.core.common.ResultState
 import com.irfan.core.common.SnackBarHelper.showSnackBarSingleEvent
 import com.irfan.core.common.loadImage
-import com.irfan.dtonton.common.DataMapperHelper
 import com.irfan.dtonton.common.RvHelper.rvItemDecoration
 import com.irfan.dtonton.common.RvHelper.rvLayoutManager
 import com.irfan.dtonton.databinding.FragmentMovieDetailBinding
 import com.irfan.dtonton.databinding.ItemColumnMovieBinding
-import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
 import com.irfan.dtonton.presentation.adapter.ListMovieAdapter
 import com.irfan.dtonton.presentation.model.MovieCardPModel
+import com.irfan.dtonton.presentation.model.MovieDetailPModel
 import com.irfan.dtonton.presentation.view_model.MovieDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
@@ -100,8 +99,7 @@ class MovieDetailFragment : Fragment() {
 
                 is ResultState.HasData -> {
                     showLoadingImgToBeforeRecommendations(false)
-                    val data =
-                        DataMapperHelper.mapMovieDetailEntityToMovieDetailPModel(resultState.data)
+                    val data = resultState.data
 
                     binding.apply {
                         data.apply {
@@ -131,7 +129,7 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
-    private fun showStateIsWatchlist(view: View, moveiDetail: MovieDetailEntity) {
+    private fun showStateIsWatchlist(view: View, moveiDetail: MovieDetailPModel) {
         movieDetailViewModel.stateIsWatchlistMovie.observe(viewLifecycleOwner) { resultState ->
             MyLogger.d(TAG, "stateIsWatchlistMovie: $resultState")
             when (resultState) {
@@ -265,8 +263,7 @@ class MovieDetailFragment : Fragment() {
 
                 is ResultState.HasData -> {
                     showLoadingRecommendation(false)
-                    val data =
-                        DataMapperHelper.mapListMovieEntityToListMovieCardPModel(resultState.data)
+                    val data = resultState.data
 
                     binding.apply {
                         movieDetailRvRecommendations.layoutManager =
@@ -386,19 +383,14 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
-    private fun onTapBtnWatchlist(isWatchlist: Boolean, moveiDetail: MovieDetailEntity) {
+    private fun onTapBtnWatchlist(isWatchlist: Boolean, moveiDetail: MovieDetailPModel) {
         MyLogger.d(TAG, "onTapBtnWatchlist")
         val args = MovieDetailFragmentArgs.fromBundle(arguments as Bundle)
         val id = args.id
         if (isWatchlist) {
             movieDetailViewModel.deleteWatchlistMovie(id)
         } else {
-            val movieEntity = DataMapperHelper.mapMovieDetailEntityToMovieEntity(
-                moveiDetail
-            )
-            movieDetailViewModel.insertWatchlistMovie(
-                movieEntity
-            )
+            movieDetailViewModel.insertWatchlistMovie(moveiDetail)
         }
     }
 

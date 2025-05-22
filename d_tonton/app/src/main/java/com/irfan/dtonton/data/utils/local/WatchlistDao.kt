@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.irfan.core.common.WatchlistTypeEnum
 import com.irfan.dtonton.data.model.WatchlistTable
-import com.irfan.dtonton.data.model.WatchlistTypeEnum
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -3,10 +3,10 @@ package com.irfan.dtonton.data.repository
 import com.irfan.core.common.MyLogger
 import com.irfan.core.common.ResultState
 import com.irfan.core.common.SingleEvent
+import com.irfan.core.common.WatchlistTypeEnum
 import com.irfan.dtonton.common.DataMapperHelper
 import com.irfan.dtonton.data.datasource.movie.MovieLocalDataSource
 import com.irfan.dtonton.data.datasource.movie.MovieRemoteDataSource
-import com.irfan.dtonton.data.model.WatchlistTypeEnum
 import com.irfan.dtonton.domain.entity.movie.MovieDetailEntity
 import com.irfan.dtonton.domain.entity.movie.MovieEntity
 import com.irfan.dtonton.domain.repository.MovieRepository

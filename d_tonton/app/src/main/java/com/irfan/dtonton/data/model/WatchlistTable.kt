@@ -3,6 +3,7 @@ package com.irfan.dtonton.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.irfan.core.common.WatchlistTypeEnum
 
 @Entity(tableName = "watchlist_table")
 data class WatchlistTable(
