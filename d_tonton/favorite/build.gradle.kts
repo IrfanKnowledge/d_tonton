@@ -43,15 +43,14 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":app"))
 
+    implementation(libs.androidx.navigation.fragment.ktx) // navigation component
+    implementation(libs.androidx.navigation.ui.ktx) // navigation component
     // in fragments, example: val someViewModel: by viewModels()
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.swiperefreshlayout) // swipe refresh
 
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
-    implementation(libs.androidx.swiperefreshlayout) // swipe refresh
-
-    implementation(libs.androidx.navigation.fragment.ktx) // navigation component
-    implementation(libs.androidx.navigation.ui.ktx) // navigation component
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

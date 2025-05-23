@@ -66,10 +66,6 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx) // navigation component
     implementation(libs.androidx.navigation.ui.ktx) // navigation component
 
-    implementation(libs.retrofit) // request implementation
-    implementation(libs.converter.gson) // parsing response implementation
-    implementation(libs.logging.interceptor) // logging implementation
-
     // Library dasar coroutine
     implementation(libs.kotlinx.coroutines.core)
     // Library untuk memudahkan threading di Android
@@ -82,9 +78,6 @@ dependencies {
 
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
-
-    implementation(libs.androidx.room.runtime) // room
-    ksp(libs.androidx.room.compiler) // room
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
