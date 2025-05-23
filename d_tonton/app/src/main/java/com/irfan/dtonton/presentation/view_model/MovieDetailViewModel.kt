@@ -6,13 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.irfan.core.common.MyLogger
-import com.irfan.core.common.ResultState
-import com.irfan.core.common.SingleEvent
-import com.irfan.dtonton.common.DataMapperHelper
-import com.irfan.dtonton.domain.usecase.MovieUseCase
-import com.irfan.dtonton.presentation.model.MovieCardPModel
-import com.irfan.dtonton.presentation.model.MovieDetailPModel
+import com.irfan.core.utils.MyLogger
+import com.irfan.core.utils.ResultState
+import com.irfan.core.utils.SingleEvent
+import com.irfan.dtonton.utils.DataMapperHelper
+import com.irfan.core.domain.usecase.MovieUseCase
+import com.irfan.dtonton.presentation.model.MovieCardUiModel
+import com.irfan.dtonton.presentation.model.MovieDetailUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,11 +20,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(private val movieUseCase: MovieUseCase) :
     ViewModel() {
-    private val _movieDetail = MediatorLiveData<ResultState<MovieDetailPModel>>()
-    val movieDetail: LiveData<ResultState<MovieDetailPModel>> = _movieDetail
+    private val _movieDetail = MediatorLiveData<ResultState<MovieDetailUiModel>>()
+    val movieDetail: LiveData<ResultState<MovieDetailUiModel>> = _movieDetail
 
-    private val _listMovieRecommendation = MediatorLiveData<ResultState<List<MovieCardPModel>>>()
-    val listMovieRecommendation: LiveData<ResultState<List<MovieCardPModel>>> =
+    private val _listMovieRecommendation = MediatorLiveData<ResultState<List<MovieCardUiModel>>>()
+    val listMovieRecommendation: LiveData<ResultState<List<MovieCardUiModel>>> =
         _listMovieRecommendation
 
     private val _stateInsertWatchlistMovie = MutableLiveData<ResultState<Boolean>>()
@@ -53,7 +53,7 @@ class MovieDetailViewModel @Inject constructor(private val movieUseCase: MovieUs
                 is ResultState.Loading -> ResultState.Loading
                 is ResultState.NoData -> ResultState.NoData(it.data)
                 is ResultState.HasData -> ResultState.HasData(
-                    DataMapperHelper.mapMovieDetailEntityToMovieDetailPModel(it.data)
+                    DataMapperHelper.mapMovieDetailEntityToMovieDetailUiModel(it.data)
                 )
 
                 is ResultState.Error -> ResultState.Error(it.message)
@@ -71,7 +71,7 @@ class MovieDetailViewModel @Inject constructor(private val movieUseCase: MovieUs
                 is ResultState.Loading -> ResultState.Loading
                 is ResultState.NoData -> ResultState.NoData(it.data)
                 is ResultState.HasData -> ResultState.HasData(
-                    DataMapperHelper.mapListMovieEntityToListMovieCardPModel(it.data)
+                    DataMapperHelper.mapListMovieEntityToListMovieCardUiModel(it.data)
                 )
 
                 is ResultState.Error -> ResultState.Error(it.message)
@@ -80,11 +80,11 @@ class MovieDetailViewModel @Inject constructor(private val movieUseCase: MovieUs
         }
     }
 
-    fun insertWatchlistMovie(movie: MovieDetailPModel) {
+    fun insertWatchlistMovie(movie: MovieDetailUiModel) {
         viewModelScope.launch {
             _stateInsertWatchlistMovie.value = ResultState.Loading
             _stateInsertWatchlistMovie.value = movieUseCase.insertWatchlistMovie(
-                DataMapperHelper.mapMovieDetailPModelToMovieEntity(movie)
+                DataMapperHelper.mapMovieDetailUiModelToMovieEntity(movie)
             )
             if (_stateInsertWatchlistMovie.value is ResultState.HasData) {
                 _singleEventHasDataInsertWatchlistMovie.value = SingleEvent(Unit)

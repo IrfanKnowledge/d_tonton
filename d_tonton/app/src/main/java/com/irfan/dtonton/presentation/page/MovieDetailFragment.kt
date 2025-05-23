@@ -15,18 +15,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.irfan.core.R
-import com.irfan.core.common.Constant
-import com.irfan.core.common.MyLogger
-import com.irfan.core.common.ResultState
-import com.irfan.core.common.SnackBarHelper.showSnackBarSingleEvent
-import com.irfan.core.common.loadImage
-import com.irfan.dtonton.common.RvHelper.rvItemDecoration
-import com.irfan.dtonton.common.RvHelper.rvLayoutManager
+import com.irfan.core.utils.Constant
+import com.irfan.core.utils.MyLogger
+import com.irfan.core.utils.ResultState
+import com.irfan.core.utils.SnackBarHelper.showSnackBarSingleEvent
+import com.irfan.core.utils.loadImage
+import com.irfan.dtonton.utils.RvHorizontalHelper.rvItemDecoration
+import com.irfan.dtonton.utils.RvHorizontalHelper.rvLayoutManager
 import com.irfan.dtonton.databinding.FragmentMovieDetailBinding
 import com.irfan.dtonton.databinding.ItemColumnMovieBinding
 import com.irfan.dtonton.presentation.adapter.ListMovieAdapter
-import com.irfan.dtonton.presentation.model.MovieCardPModel
-import com.irfan.dtonton.presentation.model.MovieDetailPModel
+import com.irfan.dtonton.presentation.model.MovieCardUiModel
+import com.irfan.dtonton.presentation.model.MovieDetailUiModel
 import com.irfan.dtonton.presentation.view_model.MovieDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
@@ -129,7 +129,7 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
-    private fun showStateIsWatchlist(view: View, moveiDetail: MovieDetailPModel) {
+    private fun showStateIsWatchlist(view: View, moveiDetail: MovieDetailUiModel) {
         movieDetailViewModel.stateIsWatchlistMovie.observe(viewLifecycleOwner) { resultState ->
             MyLogger.d(TAG, "stateIsWatchlistMovie: $resultState")
             when (resultState) {
@@ -329,20 +329,20 @@ class MovieDetailFragment : Fragment() {
 
     private fun onTapRecyclerView(
         view: View,
-        movieCardPModel: MovieCardPModel,
+        movieCardUiModel: MovieCardUiModel,
         bindingItem: ItemColumnMovieBinding,
     ) {
         MyLogger.d(
             TAG,
-            "onTap, id: ${movieCardPModel.id}, poster: ${movieCardPModel.posterPath}"
+            "onTap, id: ${movieCardUiModel.id}, poster: ${movieCardUiModel.posterPath}"
         )
         MyLogger.d(
             TAG,
-            "onTap, imgUrl: ${Constant.BASE_IMAGE_URL}${movieCardPModel.posterPath}"
+            "onTap, imgUrl: ${Constant.BASE_IMAGE_URL}${movieCardUiModel.posterPath}"
         )
 
         val toMovieDetailFragment =
-            MovieDetailFragmentDirections.actionMovieDetailFragmentSelf(movieCardPModel.id ?: 0)
+            MovieDetailFragmentDirections.actionMovieDetailFragmentSelf(movieCardUiModel.id ?: 0)
 
         val extras = FragmentNavigatorExtras(
             bindingItem.itemColumnMovieImage to MOVIE_DETAIL_IMG_MOVIE_TRANSITION,
@@ -383,7 +383,7 @@ class MovieDetailFragment : Fragment() {
         }
     }
 
-    private fun onTapBtnWatchlist(isWatchlist: Boolean, moveiDetail: MovieDetailPModel) {
+    private fun onTapBtnWatchlist(isWatchlist: Boolean, moveiDetail: MovieDetailUiModel) {
         MyLogger.d(TAG, "onTapBtnWatchlist")
         val args = MovieDetailFragmentArgs.fromBundle(arguments as Bundle)
         val id = args.id

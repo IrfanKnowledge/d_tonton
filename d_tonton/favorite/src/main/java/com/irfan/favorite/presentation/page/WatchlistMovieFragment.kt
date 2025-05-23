@@ -12,15 +12,16 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.irfan.core.common.MyLogger
-import com.irfan.core.common.ResultState
-import com.irfan.core.common.SnackBarHelper.showSnackBarSingleEvent
+import com.irfan.core.utils.MyLogger
+import com.irfan.core.utils.ResultState
+import com.irfan.core.utils.SnackBarHelper.showSnackBarSingleEvent
 import com.irfan.dtonton.di.FavoriteModuleDependencies
+import com.irfan.favorite.R
 import com.irfan.favorite.databinding.FragmentWatchlistMovieBinding
 import com.irfan.favorite.databinding.ItemRowWatchlistBinding
 import com.irfan.favorite.di.DaggerFavoriteComponent
 import com.irfan.favorite.presentation.adapter.ListWatchlistAdapter
-import com.irfan.favorite.presentation.model.WatchlistCardListPModel
+import com.irfan.favorite.presentation.model.WatchlistCardListUiModel
 import com.irfan.favorite.presentation.view_model.WatchlistMovieViewModel
 import com.irfan.favorite.presentation.view_model_factory.WatchlistMovieViewModelFactory
 import dagger.hilt.android.EntryPointAccessors
@@ -118,11 +119,11 @@ class WatchlistMovieFragment : Fragment() {
                                         val position = parent.getChildAdapterPosition(view)
                                         if (position >= 0) {
                                             outRect.top =
-                                                resources.getDimensionPixelSize(core.dimen.watchlist_rv_gap_8dp)
+                                                resources.getDimensionPixelSize(R.dimen.watchlist_rv_gap_8dp)
                                         }
                                         if (position == data.lastIndex) {
                                             outRect.bottom =
-                                                resources.getDimensionPixelSize(core.dimen.watchlist_rv_gap_8dp)
+                                                resources.getDimensionPixelSize(R.dimen.watchlist_rv_gap_8dp)
                                         }
                                     }
                                 },
@@ -147,13 +148,13 @@ class WatchlistMovieFragment : Fragment() {
 
     private fun onTapRecyclerView(
         view: View,
-        watchlistCardListPModel: WatchlistCardListPModel,
+        watchlistCardListUiModel: WatchlistCardListUiModel,
         bindingItem: ItemRowWatchlistBinding,
     ) {
-        MyLogger.d(TAG, "onTap, id: ${watchlistCardListPModel.id}")
-        MyLogger.d(TAG, "onTap, poster: ${watchlistCardListPModel.posterPath}")
+        MyLogger.d(TAG, "onTap, id: ${watchlistCardListUiModel.id}")
+        MyLogger.d(TAG, "onTap, poster: ${watchlistCardListUiModel.posterPath}")
 
-        val id = watchlistCardListPModel.id
+        val id = watchlistCardListUiModel.id
         val toMovieDetailFragment =
             WatchlistMovieFragmentDirections.actionNavWatchlistMovieToMovieDetailFragment(id ?: 0)
 

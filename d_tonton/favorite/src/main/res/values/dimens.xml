@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="watchlist_rv_gap_8dp">8dp</dimen>
+    <dimen name="watchlist_movie_padding_top">16dp</dimen>
+    <dimen name="watchlist_movie_padding_horizontal">8dp</dimen>
+    <dimen name="watchlist_movie_padding_bottom">16dp</dimen>
+
+    <dimen name="item_row_watchlist_margin_horizontal">8dp</dimen>
+    <dimen name="item_row_watchlist_card_parent_corner">10dp</dimen>
+    <dimen name="item_row_watchlist_card_parent_padding">8dp</dimen>
+    <dimen name="item_row_watchlist_card_img_corner">10dp</dimen>
+    <dimen name="item_row_watchlist_img_width">80dp</dimen>
+    <dimen name="item_row_watchlist_text_margin_horizontal">16dp</dimen>
+    <dimen name="item_row_watchlist_text_body_margin_top">16dp</dimen>
+</resources>

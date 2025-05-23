@@ -4,15 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.irfan.core.common.MyLogger
-import com.irfan.core.common.ResultState
-import com.irfan.dtonton.domain.usecase.MovieUseCase
-import com.irfan.favorite.common.DataMapperHelper
-import com.irfan.favorite.presentation.model.WatchlistCardListPModel
+import com.irfan.core.utils.MyLogger
+import com.irfan.core.utils.ResultState
+import com.irfan.core.domain.usecase.MovieUseCase
+import com.irfan.favorite.utils.DataMapperHelper
+import com.irfan.favorite.presentation.model.WatchlistCardListUiModel
 
 class WatchlistMovieViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
-    private val _listWatchlistMovie = MediatorLiveData<ResultState<List<WatchlistCardListPModel>>>()
-    val listWatchlistMovie: LiveData<ResultState<List<WatchlistCardListPModel>>> =
+    private val _listWatchlistMovie = MediatorLiveData<ResultState<List<WatchlistCardListUiModel>>>()
+    val listWatchlistMovie: LiveData<ResultState<List<WatchlistCardListUiModel>>> =
         _listWatchlistMovie
 
     init {
@@ -27,7 +27,7 @@ class WatchlistMovieViewModel(private val movieUseCase: MovieUseCase) : ViewMode
                 is ResultState.Loading -> ResultState.Loading
                 is ResultState.NoData -> ResultState.NoData(it.data)
                 is ResultState.HasData -> ResultState.HasData(
-                    DataMapperHelper.mapListMovieEntityToListWatchlistCardListPModel(it.data)
+                    DataMapperHelper.mapListMovieEntityToListWatchlistCardListUiModel(it.data)
                 )
 
                 is ResultState.Error -> ResultState.Error(it.message)

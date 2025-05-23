@@ -3,14 +3,14 @@ package com.irfan.favorite.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.irfan.core.common.Constant
-import com.irfan.core.common.loadImage
+import com.irfan.core.utils.Constant
+import com.irfan.core.utils.loadImage
 import com.irfan.favorite.databinding.ItemRowWatchlistBinding
-import com.irfan.favorite.presentation.model.WatchlistCardListPModel
+import com.irfan.favorite.presentation.model.WatchlistCardListUiModel
 
 class ListWatchlistAdapter(
-    private val listWatchlist: List<WatchlistCardListPModel>,
-    private val onTap: (watchlistCardListPModel: WatchlistCardListPModel, bindingItem: ItemRowWatchlistBinding) -> Unit,
+    private val listWatchlist: List<WatchlistCardListUiModel>,
+    private val onTap: (watchlistCardListUiModel: WatchlistCardListUiModel, bindingItem: ItemRowWatchlistBinding) -> Unit,
 ) : RecyclerView.Adapter<ListWatchlistAdapter.ListViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -45,9 +45,9 @@ class ListWatchlistAdapter(
 
     inner class ListViewHolder(val binding: ItemRowWatchlistBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(watchlistCardListPModel: WatchlistCardListPModel) {
+        fun bind(watchlistCardListUiModel: WatchlistCardListUiModel) {
             binding.root.setOnClickListener {
-                onTap(watchlistCardListPModel, binding)
+                onTap(watchlistCardListUiModel, binding)
             }
         }
     }

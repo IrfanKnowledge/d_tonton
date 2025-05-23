@@ -2,7 +2,7 @@ package com.irfan.favorite.presentation.view_model_factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.irfan.dtonton.domain.usecase.MovieUseCase
+import com.irfan.core.domain.usecase.MovieUseCase
 import com.irfan.favorite.presentation.view_model.WatchlistMovieViewModel
 import javax.inject.Inject
 

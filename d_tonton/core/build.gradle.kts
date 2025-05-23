@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize") // parcelize plugin
+    alias(libs.plugins.devtools.ksp) // ksp pengganti kapt
 }
 
 android {
@@ -47,6 +49,21 @@ dependencies {
     api(libs.material)
     // untuk image url
     api(libs.glide)
+
+    implementation(libs.retrofit) // request implementation
+    implementation(libs.converter.gson) // parsing response implementation
+    implementation(libs.logging.interceptor) // logging implementation
+
+    // Library dasar coroutine
+    implementation(libs.kotlinx.coroutines.core)
+    // Library untuk memudahkan threading di Android
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.hilt.android) // dagger hilt
+    ksp(libs.hilt.android.compiler) // dagger hilt
+
+    implementation(libs.androidx.room.runtime) // room database
+    ksp(libs.androidx.room.compiler) // room database
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

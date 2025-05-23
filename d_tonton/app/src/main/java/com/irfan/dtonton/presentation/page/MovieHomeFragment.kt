@@ -9,16 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import com.irfan.core.common.Constant
-import com.irfan.core.common.MyLogger
-import com.irfan.core.common.ResultState
-import com.irfan.core.common.SnackBarHelper.showSnackBarSingleEvent
-import com.irfan.dtonton.common.RvHelper.rvItemDecoration
-import com.irfan.dtonton.common.RvHelper.rvLayoutManager
+import com.irfan.core.utils.Constant
+import com.irfan.core.utils.MyLogger
+import com.irfan.core.utils.ResultState
+import com.irfan.core.utils.SnackBarHelper.showSnackBarSingleEvent
+import com.irfan.dtonton.utils.RvHorizontalHelper.rvItemDecoration
+import com.irfan.dtonton.utils.RvHorizontalHelper.rvLayoutManager
 import com.irfan.dtonton.databinding.FragmentMovieHomeBinding
 import com.irfan.dtonton.databinding.ItemColumnMovieBinding
 import com.irfan.dtonton.presentation.adapter.ListMovieAdapter
-import com.irfan.dtonton.presentation.model.MovieCardPModel
+import com.irfan.dtonton.presentation.model.MovieCardUiModel
 import com.irfan.dtonton.presentation.view_model.MovieHomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
@@ -225,19 +225,19 @@ class MovieHomeFragment : Fragment() {
 
     private fun onTapRecyclerView(
         view: View,
-        movieCardPModel: MovieCardPModel,
+        movieCardUiModel: MovieCardUiModel,
         bindingItem: ItemColumnMovieBinding,
     ) {
         MyLogger.d(
             TAG,
-            "onTap, id: ${movieCardPModel.id}, poster: ${movieCardPModel.posterPath}"
+            "onTap, id: ${movieCardUiModel.id}, poster: ${movieCardUiModel.posterPath}"
         )
         MyLogger.d(
             TAG,
-            "onTap, imgUrl: ${Constant.BASE_IMAGE_URL}${movieCardPModel.posterPath}"
+            "onTap, imgUrl: ${Constant.BASE_IMAGE_URL}${movieCardUiModel.posterPath}"
         )
 
-        val id = movieCardPModel.id
+        val id = movieCardUiModel.id
         val toMovieDetailFragment =
             MovieHomeFragmentDirections.actionNavMovieHomeToMovieDetailFragment(id ?: 0)
 

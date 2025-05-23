@@ -4,8 +4,6 @@ plugins {
     id("kotlin-parcelize") // parcelize plugin
     id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
     alias(libs.plugins.devtools.ksp) // ksp pengganti kapt
-    // tidak tahu kenapa jika saya aktifkan ini maka error saat sync gradle
-    // alias(libs.plugins.dagger.hilt.android) // dagger hilt
 }
 android {
     namespace = "com.irfan.favorite"

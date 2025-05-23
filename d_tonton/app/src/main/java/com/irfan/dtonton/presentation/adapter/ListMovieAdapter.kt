@@ -3,15 +3,15 @@ package com.irfan.dtonton.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.irfan.core.common.Constant
-import com.irfan.core.common.loadImage
+import com.irfan.core.utils.Constant
+import com.irfan.core.utils.loadImage
 import com.irfan.dtonton.databinding.ItemColumnMovieBinding
-import com.irfan.dtonton.presentation.model.MovieCardPModel
+import com.irfan.dtonton.presentation.model.MovieCardUiModel
 
 class ListMovieAdapter(
     private val type: String,
-    private val listMovie: List<MovieCardPModel>,
-    private val onTap: (movie: MovieCardPModel, bindingItem: ItemColumnMovieBinding) -> Unit,
+    private val listMovie: List<MovieCardUiModel>,
+    private val onTap: (movie: MovieCardUiModel, bindingItem: ItemColumnMovieBinding) -> Unit,
 ) : RecyclerView.Adapter<ListMovieAdapter.ListViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -40,7 +40,7 @@ class ListMovieAdapter(
     inner class ListViewHolder(val binding: ItemColumnMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieCardPModel) {
+        fun bind(movie: MovieCardUiModel) {
             binding.root.setOnClickListener {
                 onTap(movie, binding)
             }
