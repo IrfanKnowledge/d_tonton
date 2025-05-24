@@ -22,7 +22,7 @@ jobs:
       name: android/android-machine
       tag: default
       
-    working_directory: ~/project/d_tonton  # Set working directory to d_tonton folder
+    working_directory: ~/d_tonton  # Set working directory to d_tonton folder
 
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
@@ -31,11 +31,8 @@ jobs:
       - checkout
 
       - run:
-          name: Change directory to d_tonton
-          command: cd d_tonton
-      - run:
-          name: Make Gradle wrapper executable
-          command: chmod +x ./gradlew
+          name: check files
+          command: ls -la
 
       # The next step will run the unit tests
       - android/run-tests:
