@@ -33,6 +33,9 @@ jobs:
       - run:
           name: Change directory to d_tonton
           command: cd d_tonton
+      - run:
+          name: Make Gradle wrapper executable
+          command: chmod +x ./gradlew
 
       # The next step will run the unit tests
       - android/run-tests:
