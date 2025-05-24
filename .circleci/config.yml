@@ -16,6 +16,7 @@ orbs:
 jobs:
   build:
     executor: android/android
+    working_directory: ~/d_tonton/d_tonton
     steps:
       - checkout
       - restore_cache:
