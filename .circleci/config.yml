@@ -33,7 +33,8 @@ jobs:
           command: |
             java -version
             sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C0BA5CE6DC6315A3
-            sudo apt-get update && sudo apt-get install openjdk-17-jdk
+            sudo apt update 
+            sudo apt install openjdk-17-jdk
             sudo update-java-alternatives --set java-1.17.0-openjdk-amd64
             sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
             sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/javac
