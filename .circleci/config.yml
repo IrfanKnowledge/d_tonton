@@ -27,6 +27,9 @@ jobs:
           name: Change directory to d_tonton
           command: cd d_tonton
       - run:
+          name: check files
+          command: ls -la
+      - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
