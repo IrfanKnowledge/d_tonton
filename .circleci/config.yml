@@ -32,8 +32,8 @@ jobs:
           name: Set Java 17
           command: |
             sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C0BA5CE6DC6315A3
-            sudo apt install openjdk-17-jdk
-            sudo apt update
+            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-17-openjdk-amd64/bin/java
             java -version
       - run:
           name: check java version
