@@ -34,6 +34,9 @@ jobs:
       - run:
           name: check java version
           command: java --version
+      - run:
+          name: permission
+          command: chmod +x ./gradlew
 
       # The next step will run the unit tests
       - android/run-tests:
