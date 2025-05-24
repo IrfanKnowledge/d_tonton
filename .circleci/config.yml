@@ -21,12 +21,18 @@ jobs:
     executor:
       name: android/android-machine
       tag: default
+      
+    working_directory: ~/project/d_tonton  # Set working directory to d_tonton folder
 
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
       # Checkout the code as the first step.
       - checkout
+
+      - run:
+          name: Change directory to d_tonton
+          command: cd d_tonton
 
       # The next step will run the unit tests
       - android/run-tests:
