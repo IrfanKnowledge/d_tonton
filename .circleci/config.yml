@@ -26,6 +26,9 @@ jobs:
           name: check files
           command: ls -la
       - run:
+          name: check java version
+          command: java --version
+      - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
