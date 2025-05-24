@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize") // parcelize plugin
-    id("androidx.navigation.safeargs.kotlin") // navigation component safe args plugin
+    alias(libs.plugins.androidx.navigation.safeargs.kotlin) // navigation component safe args plugin
     alias(libs.plugins.devtools.ksp) // ksp pengganti kapt
 }
 android {
