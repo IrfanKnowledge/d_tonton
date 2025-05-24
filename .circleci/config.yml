@@ -33,6 +33,9 @@ jobs:
       - run:
           name: check files
           command: ls -la
+      - run:
+          name: Change directory to d_tonton
+          command: cd d_tonton
 
       # The next step will run the unit tests
       - android/run-tests:
