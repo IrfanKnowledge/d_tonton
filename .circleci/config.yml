@@ -29,6 +29,12 @@ jobs:
           name: check java version
           command: java --version
       - run:
+          name: Set Java 17
+          command: sudo update-java-alternatives --set java-1.17.0-openjdk-amd64
+      - run:
+          name: check java version
+          command: java --version
+      - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
