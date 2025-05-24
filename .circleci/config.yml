@@ -18,7 +18,7 @@ jobs:
     executor: android/android
     working_directory: ~/d_tonton/d_tonton
     steps:
-      - checkout
+      - checkout:
           path: ~/d_tonton
       - restore_cache:
           key: android-orb-v1-
