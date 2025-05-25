@@ -24,6 +24,10 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             buildConfigField("Boolean", "DEBUG", "true")
             buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b2266\"")
         }
@@ -78,6 +82,9 @@ dependencies {
 
     implementation(libs.hilt.android) // dagger hilt
     ksp(libs.hilt.android.compiler) // dagger hilt
+
+    // Library untuk pengujian memory leak
+    debugImplementation(libs.leakcanary.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
