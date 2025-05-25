@@ -19,6 +19,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -80,8 +82,12 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): DTontonDatabase {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("dtonton".toCharArray())
+        val factory = SupportFactory(passphrase)
         return Room.databaseBuilder(context, DTontonDatabase::class.java, "dtonton.db")
-            .fallbackToDestructiveMigration(false).build()
+            .fallbackToDestructiveMigration(false)
+            .openHelperFactory(factory)
+            .build()
     }
 
     @Provides

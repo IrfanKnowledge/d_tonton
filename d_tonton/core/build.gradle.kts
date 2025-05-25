@@ -64,6 +64,11 @@ dependencies {
     implementation(libs.androidx.room.runtime) // room database
     ksp(libs.androidx.room.compiler) // room database
 
+    // DB Encrypt
+    implementation(libs.android.database.sqlcipher)
+    // DB Encrypt
+    implementation(libs.androidx.sqlite.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

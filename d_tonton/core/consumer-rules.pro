@@ -122,3 +122,34 @@
 -keepclassmembers,allowobfuscation,allowoptimization class <1> {
   <init>();
 }
+##---------------End: proguard configuration for Gson ----------
+
+##---------------Begin: proguard configuration for SQLCipher  ----------
+-keep,includedescriptorclasses class net.sqlcipher.** { *; }
+-keep,includedescriptorclasses interface net.sqlcipher.** { *; }
+##---------------End: proguard configuration for SQLCipher  ----------
+
+##---------------Begin: proguard configuration for Kotlin Stdlib ----------
+# Keep Kotlin metadata, which is essential for reflection and other features.
+-keep class kotlin.Metadata { *; }
+-keepclassmembers class kotlin.Metadata { *; }
+
+# Keep core Kotlin classes, including those for lazy initialization.
+-keep class kotlin.LazyKt { *; }
+-keep class kotlin.UnsafeLazyImpl { *; }
+-keep class kotlin.InitializedLazyImpl { *; }
+-keep class kotlin.SynchronizedLazyImpl { *; } # Another common implementation for by lazy
+
+# Keep other potentially important Kotlin classes/members.
+# This is a bit broader but can help prevent NoClassDefFoundError for stdlib classes.
+-keepnames class kotlin.** { *; }
+-dontwarn kotlin.** # Suppress warnings for Kotlin stdlib if necessary, but keeping classes is better.
+
+# Keep classes related to Kotlin coroutines if you use them (you have one for Continuation already)
+-keep class kotlin.coroutines.** { *; }
+-keepnames class kotlinx.coroutines.** { *; } # If you use kotlinx.coroutines
+-dontwarn kotlinx.coroutines.**
+
+# Keep function types (Function0, Function1, etc.)
+-keepclassmembers class kotlin.jvm.functions.** { *; }
+##---------------End: proguard configuration for Kotlin Stdlib ----------

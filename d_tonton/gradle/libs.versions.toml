@@ -32,6 +32,8 @@ roomCompiler = "2.7.1"
 roomRuntime = "2.7.1"
 navigationDynamicFeaturesFragment = "2.9.0"
 leakcanaryAndroid = "2.14"
+androidDatabaseSqlcipher = "4.5.4"
+sqliteKtx = "2.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,6 +63,8 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 androidx-navigation-dynamic-features-fragment = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigationDynamicFeaturesFragment" }
 leakcanary-android = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanaryAndroid" }
+android-database-sqlcipher = { group = "net.zetetic", name = "android-database-sqlcipher", version.ref = "androidDatabaseSqlcipher" }
+androidx-sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqliteKtx" }
 
 
 [plugins]
