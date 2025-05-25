@@ -13,13 +13,13 @@ android {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b2266\"")
         consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
         debug {
             buildConfigField("Boolean", "DEBUG", "true")
-            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b2266\"")
         }
         release {
             isMinifyEnabled = false
@@ -28,15 +28,14 @@ android {
                 "proguard-rules.pro"
             )
             buildConfigField("Boolean", "DEBUG", "false")
-            buildConfigField("String", "API_KEY", "\"c5a5c8800007bed6b8c89e13c32b2266\"")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         viewBinding = true

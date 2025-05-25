@@ -14,26 +14,16 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/item_row_watchlist_card_parent_padding">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/item_row_watchlist_cv_img"
-            android:layout_width="wrap_content"
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/item_row_watchlist_img"
+            android:layout_width="@dimen/item_row_watchlist_img_width"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/item_row_watchlist_card_img_corner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:contentDescription="@string/watchlist_poster"
+            android:scaleType="centerInside"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/item_row_watchlist_img"
-                android:layout_width="@dimen/item_row_watchlist_img_width"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/watchlist_poster"
-                android:scaleType="centerInside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/avatars" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/RoundedCornerImage"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/item_row_watchlist_tv_title"
@@ -44,7 +34,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/item_row_watchlist_cv_img"
+            app:layout_constraintStart_toEndOf="@id/item_row_watchlist_img"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem/random" />
 
@@ -58,7 +48,7 @@
             android:ellipsize="end"
             android:maxLines="4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/item_row_watchlist_cv_img"
+            app:layout_constraintStart_toEndOf="@id/item_row_watchlist_img"
             app:layout_constraintTop_toBottomOf="@+id/item_row_watchlist_tv_title"
             tools:text="@tools:sample/lorem/random" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@ class ListMovieAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): ListMovieAdapter.ListViewHolder {
+    ): ListViewHolder {
         val binding =
             ItemColumnMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)

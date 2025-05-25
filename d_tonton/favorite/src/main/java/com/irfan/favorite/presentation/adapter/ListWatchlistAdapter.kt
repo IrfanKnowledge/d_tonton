@@ -15,7 +15,7 @@ class ListWatchlistAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
-    ): ListWatchlistAdapter.ListViewHolder {
+    ): ListViewHolder {
         val binding =
             ItemRowWatchlistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
@@ -50,9 +50,5 @@ class ListWatchlistAdapter(
                 onTap(watchlistCardListUiModel, binding)
             }
         }
-    }
-
-    companion object {
-        const val TAG = "ListWatchlistAdapter"
     }
 }
